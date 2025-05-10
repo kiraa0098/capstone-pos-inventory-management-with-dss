@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/style/admin_add_branch.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/script/admin_add_branch.js" defer></script>
+    <title>GNW | Add Branch</title>
+  </head>
+  <body>
+    <div class="alert-div" id="customAlertContainer"></div>
+    <div class="modal-content">
+      <div class="form-grid">
+        <div class="error-message" id="err-branch-name"></div>
+        <input
+          type="text"
+          id="branch-name"
+          autocomplete="off"
+          placeholder="Branch Name"
+        />
+        <div class="error-message" id="err-province"></div>
+        <input
+          type="text"
+          id="province"
+          autocomplete="off"
+          placeholder="Province"
+        />
+        <div class="error-message" id="err-city"></div>
+        <input type="text" id="city" placeholder="City" />
+        <div class="error-message" id="err-baranggay"></div>
+        <input
+          type="text"
+          id="baranggay"
+          autocomplete="off"
+          placeholder="Barangay"
+        />
+        <div class="error-message" id="err-street-name"></div>
+        <input
+          type="text"
+          id="street-name"
+          autocomplete="off"
+          placeholder="Street Name"
+        />
+        <div class="error-message" id="err-building"></div>
+        <input
+          type="text"
+          id="building"
+          autocomplete="off"
+          placeholder="Building"
+        />
+        <div class="error-message" id="err-house-number"></div>
+        <input
+          type="text"
+          id="house-number"
+          autocomplete="off"
+          placeholder="House No."
+        />
+        <div class="error-message" id="err-branch-key"></div>
+        <input
+          type="password"
+          id="branch-key"
+          autocomplete="off"
+          placeholder="Branch Key"
+        />
+        <div class="error-message" id="err-confirm-branch-key"></div>
+        <!-- Corrected id here -->
+        <input
+          type="password"
+          id="confirm-branch-key"
+          autocomplete="off"
+          placeholder="Confirm Branch Key"
+        />
+      </div>
+      <div style="display: flex; gap: 1rem">
+        <button id="add-branch" class="button-primary transparent-button">
+          Add Branch
+        </button>
+        <a href="/admin/branch"
+          ><button class="button-primary transparent-button">Cancel</button></a
+        >
+      </div>
+    </div>
+  </body>
+</html>

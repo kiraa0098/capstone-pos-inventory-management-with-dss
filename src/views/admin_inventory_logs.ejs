@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/general_styles.css" />
+    <link rel="stylesheet" href="/style/admin.css" />
+    <link rel="stylesheet" href="/style/inventory_logs.css" />
+    <title>GNW | View logs</title>
+  </head>
+  <body>
+    <nav class="side-nav">
+      <%- include('./components/admin_main_navigation.ejs') %>
+    </nav>
+    <div class="left-container">
+      <div class="top-container">
+        <div>
+          <h1>Inventory Logs</h1>
+        </div>
+        <div class="search-container">
+          <div class="search-bar">
+            <img
+              src="/assets/images/search-icon.png"
+              alt=""
+              style="width: 20px"
+            />
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by Product..."
+              class="search-input"
+            />
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter">
+            <select id="actionDropdown" class="select-input">
+              <option value="">All</option>
+              <option value="archive a product">Archive a Product</option>
+              <option value="unarchive a product">Unarchive a Product</option>
+              <option value="add a product">Add a Product</option>
+              <option value="edit a product">Edit a Product</option>
+              <option value="restock a product">Restock a product</option>
+              <option value="Destocked a product">Destocked a product</option>
+              <option value="full delete a product">
+                Full delete a product
+              </option>
+            </select>
+          </div>
+
+          <!-- Button to apply filters -->
+
+          <div class="filter">
+            <label for="branch">Branch: </label>
+            <select id="branch" name="branch" class="select-input">
+              <option value="">All Branches</option>
+              <% branches.forEach(branch => { %>
+              <option value="<%= branch.branch_name %>">
+                <%= branch.branch_name %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+          <button onclick="applyFilters()" class="transparent-button">
+            Filter
+          </button>
+        </div>
+        <!-- Search Bar and Filters -->
+      </div>
+
+      <div class="bottom-container">
+        <!-- Button to apply filters -->
+
+        <div class="tableDiv">
+          <table class="table" id="TableID">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Brand</th>
+                <th>Branch</th>
+                <th>Created At</th>
+                <th>Action</th>
+                <th>Cost</th>
+                <th>Price</th>
+                <% if (showProductStock) { %>
+                <th>Stock</th>
+                <% } %> <% if (showAddedStock) { %>
+                <th style="text-align: center">Added</th>
+                <% } %>
+              </tr>
+            </thead>
+            <tbody>
+              <% logs.forEach(log => { %>
+              <tr>
+                <td class="product-name" data-label="Product">
+                  <%= log.inventory_log_product_name %>
+                </td>
+                <td data-label="Brand">
+                  <%= log.inventory_log_product_brand %>
+                </td>
+                <td data-label="Branch">
+                  <%= log.inventory_log_branch_name %>
+                </td>
+                <td data-label="Created At">
+                  <%= log.inventory_log_created_at %>
+                </td>
+                <td data-label="Action"><%= log.inventory_log_action %></td>
+                <td data-label="Cost"><%= log.inventory_log_product_cost %></td>
+                <td data-label="Price">
+                  <%= log.inventory_log_product_price %>
+                </td>
+                <% if (showProductStock) { %>
+                <td data-label="Stock">
+                  <%= log.inventory_log_product_stock %>
+                </td>
+                <% } %> <% if (showAddedStock) { %>
+                <td data-label="Stock Added">
+                  <%= log.inventory_log_product_stock_added %>
+                </td>
+                <% } %>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="right-container">
+      <%- include('./components/inventory_management_nav.ejs') %>
+    </div>
+
+    <script>
+      function applyFilters() {
+        var searchInput = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        var actionFilter = document
+          .getElementById("actionDropdown")
+          .value.toLowerCase();
+        var branchFilter = document
+          .getElementById("branch")
+          .value.toLowerCase();
+        var table = document.getElementById("TableID");
+        var tr = table.getElementsByTagName("tr");
+
+        for (var i = 1; i < tr.length; i++) {
+          var productName = tr[i].getElementsByTagName("td")[0]; // Product column
+          var actionName = tr[i].getElementsByTagName("td")[4]; // Action column
+          var branchName = tr[i].getElementsByTagName("td")[2]; // Branch column
+
+          var productText = productName
+            ? productName.textContent || productName.innerText
+            : "";
+          var actionText = actionName
+            ? actionName.textContent || actionName.innerText
+            : "";
+          var branchText = branchName
+            ? branchName.textContent || branchName.innerText
+            : "";
+
+          // Updated condition for exact match on action filter
+          var matchesProduct =
+            productText.toLowerCase().indexOf(searchInput) > -1 ||
+            searchInput === "";
+          var matchesAction =
+            actionText.toLowerCase() === actionFilter || actionFilter === "";
+          var matchesBranch =
+            branchText.toLowerCase().indexOf(branchFilter) > -1 ||
+            branchFilter === "";
+
+          if (matchesProduct && matchesAction && matchesBranch) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

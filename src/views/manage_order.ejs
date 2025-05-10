@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="/style/order_management.css" />
+    <script src="/script/order_process_and_modal.js" defer></script>
+    <script src="/script/order_management_search_product.js" defer></script>
+    <title>GNW | Manage order</title>
+  </head>
+  <body>
+    <!-- Custom Alert Container -->
+    <div class="alert-div" id="customAlertContainer"></div>
+    <nav class="side-nav">
+      <%- include('./components/branch_main_navigation.ejs') %>
+    </nav>
+
+    <div class="main-container">
+      <div class="product-container">
+        <div class="header"><h1><%= branch_name %> branch</h1></div>
+        <div class="search-div">
+          <img
+            src="/assets/images/search-icon.png"
+            alt=""
+            style="width: 1.5dvw"
+          />
+          <input
+            type="text"
+            id="search-input"
+            placeholder="Search products..."
+          />
+        </div>
+        <% if (products.length > 0) { %>
+        <div class="table-container">
+          <table id="product-table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Brand</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% products.forEach(product => { %>
+              <tr
+                data-id="<%= product.product_id %>"
+                data-name="<%= product.product_name %>"
+                data-brand="<%= product.product_brand %>"
+                data-price="<%= product.product_price %>"
+                data-stock="<%= product.product_stock %>"
+                data-category="<%= product.product_category %>"
+                data-category_id="<%= product.product_category_id %>"
+              >
+                <td title="<%= product.product_name %>">
+                  <%= product.product_name %>
+                </td>
+                <td><%= product.product_brand %></td>
+                <td><%= product.product_price.toFixed(2) %></td>
+              </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+        <% } else { %>
+        <p>No products found for this branch.</p>
+        <% } %>
+      </div>
+
+      <!------------------------------------------------->
+
+      <div class="receipt-container">
+        <div class="header"><h1>Order summary</h1></div>
+        <div class="product-item-table-header">
+          <div style="text-align: center">
+            <span class="product-name-header"><b>Name</b></span>
+          </div>
+          <div style="text-align: center">
+            <span class="product-brand-header"><b>Brand</b></span>
+          </div>
+          <div style="text-align: center">
+            <span class="product-price-header"><b>Price</b></span>
+          </div>
+          <div style="text-align: center">
+            <span class="total-price-header"><b>Total</b></span>
+          </div>
+        </div>
+
+        <div id="order-cart" class="top-container"></div>
+        <!-- dito nag populate yung product cart (class name div "product-item") -->
+        <div class="bottom-container">
+          <div id="discount">Discount: 0.00</div>
+          <div id="total-price">Total Price: 0.00</div>
+          <div class="button-container">
+            <button id="discount-button" disabled class="button">
+              Discount
+            </button>
+            <button id="cancel-order-button" disabled class="button">
+              Cancel Order
+            </button>
+            <button id="process-order-modal-button" disabled class="button">
+              Process Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Discount Modal -->
+    <div id="discount-modal" class="modal">
+      <div class="modal-content">
+        <span class="discount-modal-close-button close-button">&times;</span>
+        <h2>Apply Discount</h2>
+        <label for="discount-amount">Discount Amount</label>
+        <input type="number" id="discount-amount" min="0" step="0.01" />
+        <button id="apply-discount">Apply Discount</button>
+      </div>
+    </div>
+
+    <!-- Add this modal structure at the bottom of your body tag -->
+    <div id="process-order-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Process Order</h2>
+
+        <div class="payment-method-buttons">
+          <button id="cash-button" class="payment-button active">Cash</button>
+          <button id="bank-transfer-button" class="payment-button">
+            Bank Transfer
+          </button>
+        </div>
+
+        <div id="payment-form">
+          <div id="err-payment-amount" class="error-div"></div>
+          <label for="payment-amount">Payment amount</label>
+          <input
+            type="number"
+            id="payment-amount"
+            placeholder="Enter amount"
+            step="1"
+          />
+
+          <label for="customer-name">Customer name (optional)</label>
+          <input
+            type="text"
+            id="customer-name"
+            placeholder="Enter customer name"
+          />
+
+          <div id="bank-transfer-details" style="display: none">
+            <div id="err-select-bank" class="error-div"></div>
+            <label for="bank">Bank</label>
+            <select id="bank">
+              <option value="" disabled selected>--Select a bank</option>
+              <option value="BDO">BDO</option>
+              <option value="GCASH">GCash</option>
+              <option value="PayMaya">PayMaya</option>
+              <option value="BPI">BPI</option>
+              <option value="PayPal">PayPal</option>
+              <option value="GrabPay">GrabPay</option>
+              <option value="PalawanPay">PalawanPay</option>
+            </select>
+
+            <div id="err-reference-number" class="error-div"></div>
+            <label for="reference-number">Transaction number</label>
+            <input
+              type="text"
+              id="reference-number"
+              placeholder="Enter reference number"
+            />
+          </div>
+        </div>
+        <button class="button" id="submit-order-button">Confirm Order</button>
+      </div>
+    </div>
+
+    <div id="logs-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+
+        <h1 style="display: inline-flex; align-items: center; gap: 1rem">
+          Today's Sales:
+          <p class="todays-sales">₱<%= todaySales %></p>
+        </h1>
+
+        <h2>Transaction Logs</h2>
+        <div id="sales-table" class="logs-section">
+          <table id="sales-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Total price</th>
+                <th>Payment mode</th>
+                <th>Payment amount</th>
+                <th>Discount</th>
+                <th>Bank</th>
+                <!-- Added column for bank -->
+                <th>Transaction no.</th>
+                <!-- Added column for transaction number -->
+                <th colspan="2">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% // Sort salesRecords by sales_date in descending order
+              salesRecords.sort((a, b) => new Date(b.sales_date) - new
+              Date(a.sales_date)); salesRecords.forEach((sale) => { %>
+              <tr class="sales-item" data-sale-id="<%= sale.sales_id %>">
+                <td>
+                  <%= (() => { const date = new Date(sale.sales_date); const
+                  optionsDate = { dateStyle: 'short' }; const optionsTime = {
+                  timeStyle: 'short' }; const dateString =
+                  date.toLocaleDateString('en-US', optionsDate); const
+                  timeString = date.toLocaleTimeString('en-US', optionsTime);
+                  return `${dateString} ${timeString}`; })() %>
+                </td>
+                <td><%= sale.customer_name || "-" %></td>
+                <td><%= sale.sales_total_price.toFixed(2) %></td>
+                <td><%= sale.payment_mode %></td>
+                <td><%= sale.payment_amount.toFixed(2) %></td>
+                <td><%= sale.discount %></td>
+                <td>
+                  <%= sale.payment_mode === 'Bank Transfer' ? sale.bank : '-' %>
+                </td>
+                <td>
+                  <%= sale.payment_mode === 'Bank Transfer' ?
+                  sale.transaction_number : '-' %>
+                </td>
+                <td colspan="2">
+                  <div class="actions-div">
+                    <button
+                      class="view-products-button view-button"
+                      id="view-products-button"
+                      data-sale-id="<%= sale.sales_id %>"
+                    >
+                      View
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Refund Logs</h2>
+        <div id="refund-logs" class="logs-section">
+          <table id="refund-logs">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Name</th>
+                <th>Total Price</th>
+                <th>Payment Mode</th>
+                <th>Refund Reason</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (refundRecords && refundRecords.length > 0) { %> <%
+              refundRecords.reverse().forEach(refund => { %>
+              <tr>
+                <td>
+                  <%= (() => { const date = new Date(refund.refund_date); const
+                  optionsDate = { dateStyle: 'short' }; const optionsTime = {
+                  timeStyle: 'short' }; const dateString =
+                  date.toLocaleDateString('en-US', optionsDate); const
+                  timeString = date.toLocaleTimeString('en-US', optionsTime);
+                  return `${dateString} ${timeString}`; })() %>
+                </td>
+                <td><%= refund.customer_name || "-" %></td>
+                <td><%= refund.refund_total_price.toFixed(2)%></td>
+                <td><%= refund.payment_mode || "-" %></td>
+                <td><%= refund.refund_reason || "-" %></td>
+                <td>
+                  <button
+                    class="view-refund-product view-button"
+                    id="view-refund-product"
+                    data-refund-id="<%= refund.refund_id %>"
+                  >
+                    View
+                  </button>
+                </td>
+              </tr>
+              <% }); %> <% } else { %>
+              <tr>
+                <td colspan="7">No refunds available.</td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sold Products Modal -->
+    <div id="sold-products-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <div class="sold-products">
+          <table id="sold-products-table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Brand</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+              </tr>
+            </thead>
+            <tbody id="sold-products-list">
+              <!-- Rows will be added here dynamically -->
+            </tbody>
+          </table>
+          <div class="button-container">
+            <button class="green-button" id="print-sale-record-button">
+              Print
+            </button>
+            <button class="orange-button" id="refund-sale-button">
+              Refund
+            </button>
+          </div>
+
+          <!-- Reason input field (Initially hidden) -->
+          <div
+            id="refund-reason-container"
+            style="display: none; overflow: hidden"
+          >
+            <label for="refund-reason">Reason for Refund:</label>
+            <div id="err-refund-reason" class="error-div"></div>
+            <input type="text" id="refund-reason" placeholder="Enter reason" />
+            <div class="button-container">
+              <button class="green-button" id="confirm-refund">
+                Confirm Refund
+              </button>
+              <button class="red-button" id="cancel-refund">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Refund Products Modal -->
+    <div id="refund-products-modal" class="modal">
+      <div class="modal-content">
+        <span class="close-button">&times;</span>
+        <h2>Refund Products</h2>
+        <div class="Refund-products">
+          <table id="Refund-products-table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Brand</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+              </tr>
+            </thead>
+            <tbody id="refund-products-list">
+              <!-- Rows will be added here dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const salesRecords = <%- JSON.stringify(salesRecords) %>;
+    </script>
+  </body>
+</html>

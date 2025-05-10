@@ -1,0 +1,174 @@
+h1 {
+  border-bottom: var(--orange) 3px solid;
+  margin: 0% auto;
+}
+select {
+  text-align: center;
+}
+option {
+  text-align: center;
+}
+.top-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  border: solid 1px rgba(31, 36, 45, 1);
+  gap: 1rem;
+}
+
+.search-container {
+  width: 80%;
+}
+
+.transparent-button {
+  text-wrap: nowrap;
+}
+
+.sliding-button {
+  margin-right: 1rem;
+}
+
+#cancelUnarchive,
+#cancelDelete {
+  background-color: var(--red);
+}
+
+.tableDiv {
+  display: flex;
+  align-items: flex-start;
+}
+
+.table {
+  width: 100%; /* Table now takes up full width of its container */
+  border-collapse: collapse;
+  margin: 0; /* Center alignment might not work well on smaller screens */
+  font-size: 14px;
+  text-align: left;
+  background-color: transparent;
+  overflow-y: hidden;
+}
+
+.table thead tr {
+  background-color: #3a3f51;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #1f242d; /* Ensures the header background stays consistent */
+  z-index: 1; /* Ensures the header stays above the table content when scrolling */
+  padding: 12px 15px 12px 5px;
+  font-size: 15px;
+}
+
+.table thead th:nth-child(1) {
+  text-align: left;
+}
+.table thead th:nth-child(2) {
+  text-align: left;
+}
+.table thead th:nth-child(3) {
+  text-align: left;
+}
+.table thead th:nth-child(4) {
+  text-align: left;
+}
+.table thead th:nth-child(5) {
+  text-align: left;
+}
+.table thead th:nth-child(6) {
+  text-align: left;
+}
+.table thead th:nth-child(7) {
+  text-align: left;
+}
+.table thead th:nth-child(8) {
+  text-align: center;
+  padding: 12px 15px;
+}
+
+.table tbody td:nth-child(8) {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.table td {
+  padding: 5px;
+  font-size: 13px;
+}
+
+.table tbody tr {
+  border-bottom: 2.5px solid #3a3f51;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.table tbody tr:hover {
+  background-color: var(--hvr-row);
+}
+
+.table tbody tr:last-of-type {
+  border-bottom: 2px solid #3a3f51;
+}
+
+.table button {
+  background-color: #3336423f;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+  color: var(--green);
+}
+
+.table button:hover {
+  background-color: var(--hvr-green);
+  color: var(--text-color);
+}
+
+.table .delete {
+  color: var(--red);
+}
+
+.table .delete:hover {
+  background-color: var(--red);
+}
+
+.modal-content {
+  width: 400px;
+}
+
+/* Media Query for Smaller Screens */
+@media screen and (max-width: 768px) {
+  .table thead {
+    display: none; /* Hide headers on small screens */
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table tr {
+    margin-bottom: 15px;
+  }
+
+  .table td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .table td:before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 15px;
+    font-weight: bold;
+    text-align: left;
+    white-space: nowrap;
+  }
+}

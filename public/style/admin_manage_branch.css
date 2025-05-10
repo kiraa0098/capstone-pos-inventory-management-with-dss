@@ -1,0 +1,446 @@
+@import url(/variables.css);
+/*******************************************************/
+/**                 used in javascript        **********/
+/**         pwede mo palitan mga properties   **********/
+/**   yung mga class/id name lang yung important  ******/
+/*******************************************************/
+
+/*******************************************************/
+
+* ::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  font-family: var(--main-font);
+}
+body {
+  font-family: var(--main-font);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  display: grid;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/images/GNW_logo.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.04;
+  z-index: -1;
+}
+
+/* Custom Alert Styles */
+
+#customAlertContainer {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  width: 300px;
+}
+
+.custom-alert {
+  background-color: #f44336; /* Default red background, can change dynamically */
+  color: white;
+  padding: 16px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.custom-alert.success {
+  background-color: #45ac48; /* Green background for success alerts */
+}
+
+.custom-alert.error {
+  background-color: #f44336; /* Red background for error alerts */
+}
+
+.custom-alert.fade-in {
+  opacity: 1;
+}
+
+.custom-alert.fade-out {
+  opacity: 0;
+}
+
+.wrapper {
+  margin-left: 4dvw;
+  display: grid;
+  place-items: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.side-nav {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.branch-details {
+  display: grid;
+  grid-auto-flow: column;
+  align-content: center;
+  background: #161329cc;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 10px;
+}
+
+.left-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  gap: 0.5rem;
+}
+
+.right-container {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background: #231e41cc;
+}
+
+.bottom-container {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.button-container {
+  margin-left: auto;
+}
+.forgot-branch-key {
+  margin-top: auto;
+}
+
+.details-container {
+  display: grid;
+  grid-auto-flow: row;
+  padding: 1rem;
+  background: #231e41cc;
+  border-radius: 10px;
+  min-width: 350px;
+
+  max-height: 400px;
+}
+
+.details {
+  display: flex;
+  gap: 1rem;
+}
+
+.details > * {
+  flex: 1;
+  flex-grow: 1;
+}
+
+button {
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  border-radius: 7px;
+  transition: background-color 0.5s ease 0ms;
+}
+#cancel-changes-info {
+  background-color: #e53935; /* Soft red */
+  color: var(--text-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  border-radius: 10px;
+}
+
+#cancel-changes-info:hover {
+  background-color: #911e1e; /* Slightly darker red on hover */
+}
+
+#cancel-changes-info,
+#save-info-btn {
+  margin: 0 20px 0 0;
+}
+
+#change-branch-key-btn,
+#confirm-new-branch-key-btn {
+  background: var(--green);
+  color: var(--text-color);
+
+  font-weight: bold;
+  width: 150px;
+  font-size: 0.7rem;
+}
+
+#save-info-btn {
+  border-radius: 10px;
+  height: 40px;
+  background: var(--green);
+  color: var(--text-color);
+}
+
+#save-info-btn:hover {
+  background-color: var(--hvr-green);
+  color: white;
+}
+
+#change-branch-key-btn {
+  height: 40px;
+  margin-left: auto;
+}
+
+#change-branch-key-btn:hover {
+  background-color: var(--hvr-green);
+  color: white;
+}
+
+#confirm-new-branch-key-btn:hover {
+  background-color: var(--hvr-green);
+  color: white;
+}
+button.disabled,
+button:disabled {
+  background-color: #ccc; /* Grey background for disabled state */
+  color: #666; /* Grey text for disabled state */
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+}
+
+/* Initial hidden state for the branch key fields */
+#branch-key-fields {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease, max-height 0.5s ease;
+  border-bottom: 1px white solid;
+}
+
+#branch-key-fields.show {
+  opacity: 1;
+  max-height: 500px; /* Adjust this value to fit the height of your fields */
+}
+
+.forgot-branch-key {
+  margin-top: 20px;
+  transition: margin-top 0.5s ease;
+}
+
+.forgot-branch-key a {
+  text-decoration: none; /* No underline by default */
+  position: relative;
+  transition: color 0.3s ease; /* Optional: smooth color transition */
+}
+
+.forgot-branch-key a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px; /* Adjust as needed */
+  width: 100%;
+  height: 2px; /* Adjust thickness of underline */
+  background: #ff6347; /* Change color of underline */
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s ease; /* Smooth fade-in */
+}
+
+.forgot-branch-key a:hover::after {
+  opacity: 1; /* Show underline on hover */
+}
+
+#branch-key-fields.show + .forgot-branch-key {
+  margin-top: 0;
+}
+
+#branch-key-fields div,
+.forgot-branch-key div {
+  margin: 10px;
+}
+
+.status {
+  display: flex;
+  justify-items: space-between;
+  align-items: center;
+}
+
+.status div {
+  margin: 10px;
+}
+
+.toggleTextDiv {
+  border-bottom: 1px solid white;
+}
+
+.toggleTextDiv div {
+  margin: 10px;
+}
+.BranchKeyBtnDIV {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid white;
+}
+.BranchKeyBtnDIV div {
+  margin: 10px;
+}
+
+.BranchKeyBtnDIVheaderDiv {
+  text-align: left;
+}
+#status-text {
+  margin: 0;
+  margin-top: 0;
+  margin-right: 10px;
+}
+.toggleText {
+  font-size: 12px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"] {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-style: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: #130f27;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: rgb(77, 76, 76);
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #45ac48;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+#status-text {
+  font-size: 18px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.password-container {
+  position: relative;
+  display: grid;
+  align-items: center;
+}
+
+.password-container input {
+  width: 100%;
+}
+
+.password-container .eyeIcon {
+  position: absolute;
+  right: 5px;
+  top: 15px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.password-container #old-branch-key-eyeIcon,
+.password-container #new-branch-key-eyeIcon,
+.password-container #confirm-branch-key-eyeIcon {
+  width: 25px;
+  top: 15px;
+}
+
+#login-history-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table thead {
+  position: sticky;
+  top: 0;
+  z-index: 2; /* Ensure it stays above the body rows */
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  background: #130f27;
+}
+
+.table-section {
+  flex-grow: 1;
+  background: #231e41cc;
+  border-radius: 10px;
+  padding: 10px 5px;
+}
+
+.table-section h3 {
+  margin-left: 10px;
+  margin: 5px 5px;
+}
+
+.table-container {
+  max-height: 100px; /* Adjust as needed */
+
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+table thead th:nth-child(1) {
+  text-align: left;
+}
+table thead th:nth-child(2) {
+  text-align: left;
+}
+table thead th:nth-child(3) {
+  text-align: left;
+}
+table thead th:nth-child(4) {
+  text-align: center;
+}

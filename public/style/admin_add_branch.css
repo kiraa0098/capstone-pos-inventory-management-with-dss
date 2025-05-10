@@ -1,0 +1,133 @@
+@import url(/variables.css);
+/*******************************************************/
+/**                 used in javascript        **********/
+/**         pwede mo palitan mga properties   **********/
+/**   yung mga class/id name lang yung important  ******/
+/*******************************************************/
+
+/*******************************************************/
+
+* ::-webkit-scrollbar {
+  display: none;
+}
+body {
+  font-family: var(--main-font);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/images/GNW_logo.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.04;
+  z-index: -1;
+}
+
+input {
+  font-family: var(--main-font);
+  padding: 0 8px;
+  vertical-align: middle;
+  border-radius: 2px;
+  min-height: 15px;
+  background-color: #ffffff;
+  border: 1px solid rgba(36, 28, 21, 0.3);
+  transition: all 0.2s ease-in-out 0s;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: normal;
+  &:focus {
+    outline: none;
+    border: 1px solid #007c89;
+    box-shadow: inset 0 0 0 1px #007c89;
+  }
+}
+
+input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+}
+
+.error-message {
+  color: var(--alert-text-color);
+}
+
+.modal-content {
+  position: absolute; /* Stay in place */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(22, 33, 62, 0.9);
+  color: var(--text-color);
+  padding: 2rem 3rem 2rem 3rem;
+  width: 80%; /* Could be more or less, depending on screen size */
+  max-width: 500px; /* Limit width for larger screens */
+}
+
+.button-primary {
+  width: 100%;
+  font-family: var(--main-font);
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: var(--button-color);
+  color: var(--text-color);
+  border: none;
+  cursor: pointer;
+}
+
+.button-primary:hover {
+  background-color: var(--button-color-hover);
+}
+
+.alert-div {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #f44336; /* Red */
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  opacity: 0; /* Start invisible */
+  transition: opacity 0.5s ease-in-out; /* Fade effect */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.custom-alert {
+  opacity: 1; /* When shown, set opacity to 1 */
+}
+.fade-in {
+  opacity: 1; /* Final state when fading in */
+}
+
+.fade-out {
+  opacity: 0; /* Final state when fading out */
+}
+
+.transparent-button {
+  padding: 5px 12px;
+
+  border: 1px solid #414161;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.transparent-button:hover {
+  border: 1.5px solid var(--green);
+  background-color: rgba(59, 58, 58, 0.342);
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/general_styles.css" />
+    <link rel="stylesheet" href="/style/forecast.css" />
+    <title>GNW | Forecast</title>
+  </head>
+  <body>
+    <nav class="side-nav">
+      <%- include('./components/admin_main_navigation.ejs') %>
+    </nav>
+
+    <div class="left-container">
+      <div class="top-container">
+        <div>
+          <h1>Stock Forecast</h1>
+        </div>
+        <!-- Add Search Box and Button -->
+        <div class="search-container">
+          <div class="search-bar">
+            <img
+              src="/assets/images/search-icon.png"
+              alt=""
+              style="width: 20px"
+            />
+            <input
+              class="search-input"
+              type="text"
+              id="searchInput"
+              placeholder="Search for products..."
+            />
+            <button style="display: none" id="searchBtn">Search</button>
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter">
+            <label for="branch">Branch: </label>
+            <select id="branch" name="branch" class="select-input">
+              <option value="">All Branches</option>
+              <% branches.forEach(branch => { %>
+              <option value="<%= branch.branch_name %>">
+                <%= branch.branch_name %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+        </div>
+      </div>
+      <%- include('./components/forecasting_table', { recommendationList:
+      recommendationList }) %>
+    </div>
+    <div class="right-container">
+      <%- include('./components/inventory_management_nav.ejs') %>
+    </div>
+
+    <!-- Add JavaScript -->
+    <script>
+      // Function to filter the table based on selected branch
+      function filterTableByBranch() {
+        const selectedBranch = document
+          .getElementById("branch")
+          .value.toLowerCase();
+        const rows = document.querySelectorAll("#productTable tbody tr");
+
+        rows.forEach((row) => {
+          const branchName = row.cells[1].textContent.toLowerCase(); // Assuming branch name is in the second column
+          if (selectedBranch === "" || branchName.includes(selectedBranch)) {
+            row.style.display = ""; // Show the row
+          } else {
+            row.style.display = "none"; // Hide the row
+          }
+        });
+      }
+
+      // Add event listener for branch dropdown
+      document
+        .getElementById("branch")
+        .addEventListener("change", filterTableByBranch);
+
+      // Add event listener to the search button
+      document
+        .getElementById("searchBtn")
+        .addEventListener("click", searchTable);
+
+      // Function to search the table based on input
+      function searchTable() {
+        // Get the search query
+        const query = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        // Get all table rows
+        const rows = document.querySelectorAll("#productTable tbody tr");
+
+        rows.forEach((row) => {
+          // Get the product name and branch name from the current row
+          const productName = row.cells[0].textContent.toLowerCase();
+          const branchName = row.cells[1].textContent.toLowerCase();
+
+          // If the product name or branch name includes the search query, display the row, otherwise hide it
+          if (productName.includes(query) || branchName.includes(query)) {
+            row.style.display = ""; // Show the row
+          } else {
+            row.style.display = "none"; // Hide the row
+          }
+        });
+      }
+
+      // Add event listener to trigger search when Enter key is pressed in the input field
+      document
+        .getElementById("searchInput")
+        .addEventListener("keypress", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault(); // Prevent form submission or page refresh
+            searchTable(); // Trigger the search function
+          }
+        });
+    </script>
+  </body>
+</html>

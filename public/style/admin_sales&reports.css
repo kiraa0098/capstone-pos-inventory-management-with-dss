@@ -1,0 +1,258 @@
+* ::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+* ::-webkit-scrollbar-thumb {
+  background-color: #555861; /* Scrollbar thumb color */
+  border-radius: 10px;
+}
+
+* ::-webkit-scrollbar-track {
+  background-color: #0c0c1862; /* Scrollbar track color */
+}
+
+.container {
+  height: 100dvh;
+  padding: 0.6rem;
+  margin-left: 4dvw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 0.3fr 0.8fr 1fr 0.8fr 1.6fr 0.9fr;
+  gap: 6px 6px;
+  grid-template-areas:
+    "header header header header"
+    "info-section info-section info-section pie-graph"
+    "bar-chart bar-chart bar-chart pie-graph"
+    "bar-chart bar-chart bar-chart pie-graph"
+    "bar-chart bar-chart bar-chart customer-table"
+    "bar-chart bar-chart bar-chart customer-table"
+    "bar-chart bar-chart bar-chart customer-table";
+}
+
+.top-container,
+.bar-graph-section,
+.pie-graph-section,
+.top-products-section {
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: rgba(0, 4, 8, 0.329);
+}
+
+h1 {
+  border-left: var(--orange) 3px solid;
+  margin: 0%;
+  text-wrap: nowrap;
+  padding-left: 5px;
+}
+
+h2 {
+  margin: 0;
+}
+
+h3 {
+  margin: 0.5%;
+}
+
+header {
+  grid-area: header;
+}
+
+#totalSales {
+  margin-left: 1%;
+  color: var(--price-color);
+}
+
+.top-container {
+  grid-area: info-section;
+  display: flex;
+  flex-direction: row;
+}
+
+.filter {
+  width: 100%;
+}
+
+.filter label {
+  text-wrap: nowrap;
+}
+
+.filter .select-input {
+  width: 95%;
+}
+
+.year-filter {
+  margin-left: auto;
+}
+.chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto !important;
+}
+
+.bar-graph-section {
+  grid-area: bar-chart;
+}
+.bar-graph-section .chart-container {
+  height: 80%; /* Ensure this fits your design */
+  padding: 20px;
+}
+
+.pie-graph-section {
+  grid-area: pie-graph;
+}
+.pie-graph-section .chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%; /* Make the container take up full width */
+  height: 80%; /* Ensure the container height matches its grid size */
+}
+
+.pie-graph-section #branchPieChart {
+  width: 100% !important; /* Ensure canvas takes full width of container */
+  height: 100% !important; /* Ensure canvas takes full height of container */
+  max-width: 400px; /* Optional: Limit max width to avoid stretching too much */
+  max-height: 400px; /* Optional: Limit max height */
+}
+
+.top-products-section {
+  grid-area: customer-table;
+}
+
+.top-products-section {
+  padding: 1rem 0.6rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  color: #cfd4e4;
+  max-height: 400px;
+  overflow: hidden;
+}
+
+#topProductsTable {
+  height: auto;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#topProductsTable thead th {
+  text-align: left;
+  padding: 8px 10px; /* Adjust padding to reduce header size */
+  font-weight: bold;
+  background-color: #1f242d;
+
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  width: auto; /* Allocate equal width for both columns */
+}
+
+#topProductsTable tbody {
+  width: auto;
+  overflow-y: auto;
+}
+#topProductsTable tbody th:nth-child(2),
+#topProductsTable tbody td:nth-child(2) {
+  text-align: center;
+}
+
+#exportModal .modal-content {
+  width: 20%;
+}
+
+/* #region logsModal  */
+#logsModal .modal-content {
+  height: 80%;
+  width: 90%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+#logsModal .logs-section {
+  max-height: calc(85% - 60px);
+  scroll-snap-align: end;
+  margin-bottom: 20px;
+  background-color: rgba(23, 23, 31, 0.459);
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+#logsModal #refund-logs {
+  scroll-snap-align: center;
+}
+
+#logsModal #tableContainer th {
+  background-color: #1f242d;
+  padding: 0;
+}
+
+#logsModal .logs-section thead {
+  position: sticky;
+  top: 0; /* Sticks the header to the top of the container */
+  background-color: var(
+    --modal-bg-color
+  ); /* Ensures the header has a background */
+  z-index: 1; /* Ensures the header stays above the rows */
+}
+
+#logsModal .table-container {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+#transaction-logs,
+#refund-logs {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#transaction-logs th,
+#refund-logs th {
+  background-color: #1f242d;
+}
+#transaction-logs table td:nth-child(1),
+#transaction-logs table td:nth-child(2),
+#transaction-logs table td:nth-child(3),
+#transaction-logs table td:nth-child(4),
+#transaction-logs table td:nth-child(5),
+#transaction-logs table td:nth-child(6),
+#transaction-logs table td:nth-child(7),
+#transaction-logs table td:nth-child(8),
+#refund-logs table td:nth-child(1),
+#refund-logs table td:nth-child(2),
+#refund-logs table td:nth-child(3),
+#refund-logs table td:nth-child(4),
+#refund-logs table td:nth-child(5),
+#refund-logs table td:nth-child(6),
+#refund-logs table td:nth-child(7),
+#refund-logs table td:nth-child(8),
+#refund-logs table td:nth-child(9) {
+  text-align: center;
+}
+
+.filters {
+  box-shadow: 0px 0px 0.9px rgba(0, 0, 0, 0.028),
+    0px 0px 2px rgba(0, 0, 0, 0.05), 0px 0px 3.6px rgba(0, 0, 0, 0.069),
+    0px 0px 5.9px rgba(0, 0, 0, 0.09), 0px 0px 9.8px rgba(0, 0, 0, 0.115),
+    0px 0px 17.1px rgba(0, 0, 0, 0.152), 0px 0px 37px rgba(0, 0, 0, 0.25);
+  padding: 0.5rem 1rem;
+  background-color: #171727;
+  border-radius: 8px;
+  position: sticky;
+  top: 0; /* Sticks the header to the top of the container */
+  width: fit-content;
+  z-index: 2; /* Ensures the header stays above the rows */
+}
+
+#top-products .logs-section {
+  height: 85%;
+  overflow-y: auto;
+}
+/* #endregion */
+
+/* #region MEDIA QUERIES */
+
+/* #endregion */

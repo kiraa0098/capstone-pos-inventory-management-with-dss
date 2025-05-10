@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Admin</title>
+    <link rel="stylesheet" href="/style/general_styles.css" />
+    <link rel="stylesheet" href="/style/manage_admin.css" />
+    <script src="/script/manage_admin_script.js" defer></script>
+  </head>
+  <body>
+    <nav class="side-nav">
+      <%- include('./components/admin_main_navigation.ejs') %>
+    </nav>
+
+    <div class="left-container">
+      <div class="top-container">
+        <div><h1>Manage Admin</h1></div>
+      </div>
+      <div class="bottom-container">
+        <div class="table-container" id="admin-list">
+          <table>
+            <thead>
+              <tr>
+                <th>Email</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% admins.forEach(admin => { %>
+              <tr>
+                <td><%= admin.admin_email %></td>
+                <td><%= admin.admin_first_name %></td>
+                <td><%= admin.admin_last_name %></td>
+                <td>
+                  <div class="actions-div">
+                    <button
+                      class="green-button"
+                      onclick="openEditModal({ 
+                                            admin_id: '<%= admin.admin_id %>',
+                                            admin_email: '<%= admin.admin_email %>', 
+                                            admin_first_name: '<%= admin.admin_first_name %>', 
+                                            admin_last_name: '<%= admin.admin_last_name %>' 
+                                        })"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Admin Modal -->
+    <div id="editAdminModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 500px">
+          <div class="modal-header">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h5 class="modal-title">Edit Admin</h5>
+          </div>
+          <form id="editAdminForm" onsubmit="return updateAdmin(event)">
+            <div class="modal-body">
+              <input type="hidden" id="editAdminId" name="admin_id" />
+              <div class="form-group">
+                <label for="editAdminEmail">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="editAdminEmail"
+                  name="email"
+                  required
+                />
+              </div>
+              <div class="details">
+                <div class="form-group">
+                  <label for="editAdminFirstName">First Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="editAdminFirstName"
+                    name="firstname"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="editAdminLastName">Last Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="editAdminLastName"
+                    name="lastname"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="sinking-button">Update Admin</button>
+              <button
+                type="button"
+                class="sinking-button"
+                onclick="toggleChangePasswordSection()"
+              >
+                Change Password
+              </button>
+              <button
+                type="button"
+                class="sinking-button red-button"
+                onclick="closeEditModal()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+          <!-- Moved Change Password Section Here -->
+          <div id="changePasswordSection" style="display: none">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="currentPassword">Current Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="currentPassword"
+                  name="currentPassword"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="newPassword"
+                  name="newPassword"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="confirmNewPassword">Confirm New Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="confirmNewPassword"
+                  name="confirmNewPassword"
+                  required
+                />
+              </div>
+              <button
+                type="button"
+                class="sinking-button"
+                onclick="changePassword(event)"
+              >
+                Save Password
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

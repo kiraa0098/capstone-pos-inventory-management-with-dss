@@ -1,0 +1,66 @@
+<head>
+  <link rel="stylesheet" href="/style/components/inv_management_nav.css" />
+</head>
+<script>
+  document.querySelectorAll(".link-menu ul li").forEach((item) => {
+    item.addEventListener("click", function () {
+      document.querySelectorAll(".link-menu ul li").forEach((li) => {
+        li.classList.remove("selected"); // Remove selected class from all li elements
+      });
+      this.classList.add("selected"); // Add selected class to the clicked li
+    });
+  });
+</script>
+
+<div class="link-menu">
+  <ul>
+    <li>
+      <a href="/admin/inventory">Inventory</a>
+    </li>
+    <li>
+      <a href="/admin/inventory/archived-products">Archives</a>
+    </li>
+    <li>
+      <a href="/admin/inventory/logs">Logs</a>
+    </li>
+    <li>
+      <a href="#" id="performance-link">Performance</a>
+    </li>
+
+    <script>
+      // Get the current month and year
+      const months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ];
+
+      const date = new Date();
+      const currentMonth = months[date.getMonth()]; // Get the month name
+      const currentYear = date.getFullYear(); // Get the year
+
+      // Get the performance link element
+      const performanceLink = document.getElementById("performance-link");
+
+      // Add event listener to append month and year to the URL on click
+      performanceLink.addEventListener("click", (event) => {
+        event.preventDefault(); // Prevent default behavior
+        const url = `/admin/inventory/product-performance?query=&month=${currentMonth.toLowerCase()}&year=${currentYear}&branch=&category=`;
+        window.location.href = url; // Navigate to the new URL
+      });
+    </script>
+
+    <li>
+      <a href="/admin/inventory/forecast">Forecast</a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,453 @@
+@import url(/variables.css);
+/*******************************************************/
+/**                 used in javascript        **********/
+/**         pwede mo palitan mga properties   **********/
+/**   yung mga class/id name lang yung important  ******/
+/*******************************************************/
+
+/*******************************************************/
+
+* ::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  font-family: var(--main-font);
+}
+
+body {
+  font-family: var(--main-font);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 85% 15%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/images/GNW_logo.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.04;
+  z-index: -1;
+}
+
+.alert-div {
+  position: absolute;
+  color: var(--alert-text-color);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* #region MODAL */
+.modal {
+  display: none; /* Hide the modal by default */
+  position: fixed; /* Stay in place */
+  z-index: 9; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: var(--modal-bg-color);
+  margin: 5% auto; /* 5% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 8px;
+  width: 50%; /* Could be more or less, depending on screen size */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal input {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-style: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: #292638;
+}
+/* The Close Button */
+/* Close Button */
+.closeModalButton,
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.closeModalButton:hover,
+.closeModalButton:focus,
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Form Styles */
+.modal-content label {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content textarea {
+  width: calc(100% - 20px);
+  padding: 8px 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #292638;
+  color: #a5b6d0;
+}
+
+.modal-content button {
+  background-color: var(--green); /* Green */
+  color: var(--text-color);
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.modal-content button:hover {
+  background-color: #1b5c1e;
+}
+
+/*#endregion*/
+
+/* #region CONTAINERS */
+
+.main-container {
+  height: 100dvh;
+  width: 100dvw;
+  padding: 2rem;
+  margin-left: 4dvw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem; /* Added space between top container and supplier list */
+  background-color: none; /* Subtle background for a structured look */
+  border-radius: 12px; /* Rounded corners for modern feel */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.top-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-top: 2rem;
+  border: none;
+  background-color: transparent;
+}
+
+.top-container h2 {
+  font-family: var(--title-font);
+  font-size: 2rem;
+  margin: 0;
+}
+
+.form-container {
+  background-color: var(--table-bg-color);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+input[type="text"],
+input[type="tel"],
+textarea {
+  color: #070c13;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  border: 1px solid var(--table-td-line-color);
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus {
+  outline: none;
+  border-color: var(--green);
+}
+
+button {
+  background-color: var(--button-color);
+  color: var(--text-color);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#supplier-list .transparent-button {
+  padding: 3px 5px;
+}
+
+.transparent-button {
+  background-color: transparent;
+  border-radius: none;
+  border: 1px solid #414161;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.transparent-button:hover {
+  border: 1px solid var(--green);
+  background-color: rgba(59, 58, 58, 0.342);
+}
+
+.actions-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions-buttons .transparent-button {
+  display: block;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 5px 10px !important;
+  border: transparent !important;
+  transition: background-color 0.3s ease;
+}
+
+.actions-buttons .transparent-button:hover {
+  background-color: rgba(26, 25, 25, 0.493);
+}
+
+.supplier-container {
+  display: grid;
+  grid-template-rows: auto;
+  height: 75dvh;
+  width: 92%;
+  padding: 1rem;
+  background-color: var(--table-bg-color);
+  border-radius: 10px;
+  overflow-y: auto;
+}
+
+/*#endregion*/
+
+.supplier-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem;
+  padding: 1rem 0;
+  height: fit-content;
+  overflow-y: auto;
+}
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  border-radius: 5px;
+  height: 11rem;
+  padding: 1rem;
+  background-color: #18204494;
+  align-items: start;
+}
+
+/* Delete Modal */
+#deleteSupplierModal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+#editDetailsModal .modal-content,
+#editSupplierModal .modal-content {
+  width: 500px;
+}
+
+#deleteSupplierModal .modal-content {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%; /* Adjust width based on screen size */
+  margin: 15% auto;
+}
+
+#deleteSupplierModal .modal-content p {
+  font-size: 18px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+#cancelDeleteBtn {
+  background-color: var(--red);
+}
+
+#cancelDeleteBtn:hover {
+  background-color: var(--hvr-red);
+}
+
+/* Styles for the plus icon */
+
+/* Hide form content initially */
+.hidden {
+  display: none;
+}
+
+.supplier-form {
+  cursor: pointer;
+  background-color: #0c081d9f;
+  border: 4px solid #35343471;
+}
+
+.tableDiv {
+  margin: 10px 10px 0px 50px;
+  padding: 0 20px;
+  height: 95%; /* Adjust height for better responsiveness */
+  overflow-y: auto;
+  overflow-x: auto;
+  width: 95%; /* Ensure it adapts to the screen width */
+  max-width: 100%; /* Prevents overflow */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  table-layout: auto;
+}
+
+thead th {
+  background-color: var(--table-th-line-color);
+  color: var(--text-color);
+  padding: 1rem;
+  font-size: 16px;
+}
+
+tbody td {
+  padding: 1rem;
+  height: 30px;
+  border-bottom: 1px solid var(--table-td-line-color);
+}
+
+tbody tr:hover {
+  background-color: var(--hvr-row);
+}
+
+.product-name {
+  width: 20rem;
+}
+
+.cancel-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.cancel-container input {
+  grid-column: span 2;
+}
+
+.table thead tr {
+  background-color: #3a3f51;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #1f242d; /* Ensures the header background stays consistent */
+  z-index: 1; /* Ensures the header stays above the table content when scrolling */
+  padding: 12px 15px;
+  font-size: 15px;
+}
+
+.table td {
+  padding: 5px;
+  border-bottom: 1px solid #3a3f51;
+  font-size: 13px;
+}
+
+.table td:nth-child(1),
+.table td:nth-child(2),
+.table td:nth-child(3) {
+  text-align: center;
+}
+
+.table td:nth-child(4) {
+  display: flex;
+  justify-content: center;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #3a3f51;
+}
+
+.table tbody tr:last-of-type {
+  border-bottom: 2px solid #3a3f51;
+}
+
+.table tbody tr:hover {
+  background-color: #3a3f51;
+}
+
+.table button img {
+  background-color: transparent;
+  width: 1rem;
+}
+
+/* Media Queries for responsiveness */
+@media screen and (max-width: 1920px) {
+  .main-container {
+    padding: 1rem;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .table {
+    font-size: 12px;
+  }
+
+  .main-container {
+    padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  body {
+    grid-template-columns: 80% 20%;
+  }
+
+  .tableDiv {
+    width: 90%; /* Adjust table width on smaller screens */
+  }
+}

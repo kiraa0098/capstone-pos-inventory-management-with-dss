@@ -1,0 +1,61 @@
+<!-- views/components/todaySales.ejs -->
+<div class="sales">
+  <p id="salesToday">
+    Sales Today: <%= (todaysSales.find(sale => sale.sale_branch_id ===
+    branch.branch_id) || { total_sales: 0 }).total_sales %>
+  </p>
+</div>
+
+<script>
+  // Establish WebSocket connection
+  const socket = new WebSocket("ws://localhost:3000"); // Adjust the URL if needed
+
+  socket.onopen = () => {
+    console.log("WebSocket connection established.");
+  };
+
+  socket.onerror = (error) => {
+    console.error("WebSocket error:", error);
+  };
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.type === "updateTodaySales") {
+      // Check if payload and todaysSalesPerBranch are valid
+      if (data.payload && Array.isArray(data.payload.todaysSalesPerBranch)) {
+        // Call the function with the correct data
+        updateSalesToday(
+          data.payload.branchId,
+          data.payload.todaysSalesPerBranch
+        );
+      } else {
+        console.error("Invalid payload structure:", data.payload);
+      }
+    }
+  };
+
+  const updateSalesToday = (branchId, todaysSalesPerBranch) => {
+    const salesElement = document.getElementById("salesToday");
+
+    // Ensure todaysSalesPerBranch is an array
+    if (!Array.isArray(todaysSalesPerBranch)) {
+      console.error("Invalid sales data received:", todaysSalesPerBranch);
+      return;
+    }
+
+    // Find the total sales for the current branch
+    const branchSales = todaysSalesPerBranch.find(
+      (sale) => sale.sale_branch_id === branchId
+    );
+
+    // If no matching branch sales, set total_sales to 0
+    const totalSales = branchSales ? branchSales.total_sales : 0;
+
+    // Only update if the branch ID matches
+    if (branchId === "<%= branch.branch_id %>") {
+      // Update the display with the new total sales
+      salesElement.textContent = `Sales Today: ${totalSales}`;
+    }
+  };
+</script>

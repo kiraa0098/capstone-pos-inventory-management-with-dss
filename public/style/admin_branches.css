@@ -1,0 +1,105 @@
+* ::-webkit-scrollbar {
+  display: none;
+}
+h1 {
+  border-bottom: var(--orange) 3px solid;
+  margin: 0% auto;
+  text-wrap: nowrap;
+
+  font-size: 2rem;
+}
+
+.date-container {
+  margin-left: auto;
+}
+
+#today-date {
+  border-bottom: var(--orange) 3px solid;
+}
+
+.main-container {
+  z-index: 0;
+  height: 100vh;
+  margin-left: 4dvw;
+  height: 99.5%;
+
+  display: grid;
+  grid-template-rows: 15% 85%;
+}
+
+.top-container {
+  display: inline-flex;
+  padding: 0 3rem;
+}
+
+.bottom-container {
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 1rem;
+  border: solid 1px #1f242d;
+  overflow-y: auto;
+}
+
+.branches {
+  display: grid;
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+.branch-cards {
+  cursor: pointer;
+  background-color: rgba(37, 38, 64, 0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 5px 2rem;
+  border-radius: 5px;
+  min-height: fit-content;
+  outline: 1px solid #1f242d;
+  transition: outline 500ms ease 0s;
+  transition: background-color 0.5s ease 0s;
+  display: grid;
+}
+
+.top-section {
+  align-items: center;
+  border-bottom: gray 2px solid;
+}
+
+.top-section,
+.bottom-section {
+  display: inline-flex;
+}
+
+.status,
+.sales {
+  margin-left: auto;
+}
+
+.sales {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.sales p {
+  font-size: 1.5rem;
+}
+
+.branchCardText {
+  color: gray;
+}
+
+.branch-cards:nth-child(1) {
+}
+
+.branch-cards:hover {
+  background-color: rgba(37, 38, 64, 1);
+  outline: 1.5px solid #1f242d;
+}
+
+/*
+
+#add-branch-button {
+  height: 100%;
+  width: 100%;
+}
+
+*/

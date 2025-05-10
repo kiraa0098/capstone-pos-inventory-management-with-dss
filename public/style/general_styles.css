@@ -1,0 +1,363 @@
+@import url(/variables.css);
+
+* {
+  font-family: var(--main-font);
+}
+
+body {
+  font-family: var(--main-font);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/images/GNW_logo.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.04;
+  z-index: -1;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 4; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: hidden; /* Enable scroll if needed */
+  background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+}
+
+.modal-content {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--modal-bg-color);
+  margin: 5% auto; /* 5% from the top and centered */
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%; /* Could be more or less, depending on screen size */
+  box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.006),
+    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.022),
+    12.5px 12.5px 10px rgba(0, 0, 0, 0.043),
+    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.056),
+    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.064),
+    100px 100px 80px rgba(0, 0, 0, 0.07);
+}
+
+.modal-content h2 {
+  margin-top: 1rem;
+  margin-left: 0;
+}
+
+.closeModalButton,
+.close {
+  color: #817f7f;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.closeModalButton:hover,
+.closeModalButton:focus,
+.close:hover,
+.close:focus {
+  color: #c6c6c6;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content input[type="password"],
+.modal-content input[type="email"] {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-style: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: #2f2844;
+}
+
+button {
+  cursor: pointer;
+}
+
+.select-input {
+  background-color: #1a1c2e; /* Dark background to match your theme */
+  color: #cfd4e4; /* Light text for readability */
+  border: 1px solid #414161; /* Subtle border that fits the dark theme */
+  padding: 5px 12px;
+  border-radius: 5px; /* Slightly rounded corners for a modern look */
+  appearance: none; /* Remove default arrow for cleaner UI */
+  cursor: pointer;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.select-input:hover {
+  border-color: #5b8def; /* Accent color on hover */
+}
+
+.select-input:focus {
+  outline: none;
+  border-color: #00ff6a; /* Accent color for focus */
+  background-color: #16182c; /* Darker background on focus */
+}
+
+.select-input::after {
+  content: "▼"; /* Custom arrow symbol */
+  color: #cfd4e4;
+  position: absolute;
+  right: 12px;
+  pointer-events: none; /* Ensures it's not clickable */
+}
+
+option {
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  color: #c7fbfc; /* Text color */
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: auto;
+}
+
+.search-bar {
+  display: inline-flex;
+  padding: 0.5rem 0.6rem;
+  background-color: rgba(51, 50, 50, 0.336);
+  border-style: none;
+  border-radius: 20px;
+  margin-right: 10px;
+  width: 100%;
+  transition: background-color 0.5s ease-in-out 0ms;
+}
+
+.search-bar:hover {
+  background-color: rgba(51, 50, 50, 0.5);
+}
+
+.search-bar:focus {
+  background-color: rgba(51, 50, 50, 0.5);
+}
+.search-input {
+  height: 100%;
+  background: transparent;
+  border: #c0c6de;
+  color: #c0c6de;
+  width: 100%;
+}
+
+.search-input:focus {
+  outline: none; /* Remove the default outline */
+  border: none; /* Ensure no border appears when focused */
+}
+
+.alert-div {
+  position: absolute;
+  z-index: 99;
+  color: var(--alert-text-color);
+}
+
+.top-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  border: solid 1px rgba(31, 36, 45, 1);
+  gap: 1rem;
+}
+
+.filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.filter-section {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: auto;
+}
+
+/* #region BUTTONS */
+
+.transparent-button {
+  padding: 5px 12px;
+  background-color: transparent;
+  border: 1px solid #414161;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.transparent-button:hover {
+  border: 1.5px solid var(--green);
+  background-color: rgba(59, 58, 58, 0.342);
+}
+
+.sliding-button {
+  background-color: var(--green); /* Green */
+  color: var(--text-color);
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
+}
+
+.sliding-button:hover {
+  transform: translateX(2px);
+  background-color: var(--hvr-green);
+}
+
+.sinking-button {
+  background-color: var(--green); /* Green */
+  color: var(--text-color);
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transform: scale(1);
+  transition: transform 0.5s ease-in-out, background-color 0.5s ease-in-out;
+}
+
+.sinking-button:hover {
+  transform: scale(0.95);
+  background-color: #227226;
+}
+
+.actions-div button {
+  background-color: #3336423f;
+}
+
+.green-button {
+  color: var(--green);
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+.green-button:hover {
+  background-color: var(--hvr-green);
+  color: var(--text-color);
+}
+
+.red-button {
+  color: var(--red);
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+.red-button:hover {
+  background-color: var(--hvr-red);
+  color: var(--text-color);
+}
+
+/* #endregion */
+
+.dropdown {
+  position: relative;
+  width: auto;
+  background-color: #1a1a2e; /* Adjust based on your theme */
+  border: 1px solid #35343471; /* Soft border to match your theme */
+  border-radius: 5px;
+  cursor: pointer;
+  color: #eee; /* Placeholder text color */
+  padding: 5px 10px;
+  font-size: 16px;
+  text-align: left;
+}
+
+.dropdown-header {
+  padding: 8px;
+  font-size: 14px;
+  color: #a0a0b5; /* Placeholder color */
+}
+
+/* Dropdown Content Styling */
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 0;
+  overflow: hidden;
+  background-color: #0f0f16;
+  border: 1px solid #35343471;
+  transition: max-height 0.4s ease-in-out;
+  border-radius: 0 0 5px 5px;
+  z-index: 10 !important;
+  padding: 0 1rem;
+}
+
+/* Display dropdown on hover */
+.dropdown:hover .dropdown-content {
+  max-height: 200px; /* Limit the height for scroll effect */
+  overflow-y: auto;
+}
+
+tbody tr:hover {
+  background-color: var(--hvr-row);
+}
+
+.green {
+  background-color: var(--green);
+}
+
+.green:hover {
+  background-color: var(--hvr-green);
+}
+
+.red {
+  background-color: var(--red);
+}
+
+.red:hover {
+  background-color: var(--hvr-red);
+}
+
+.orange {
+  background-color: var(--orange);
+}
+
+.details-container {
+  display: grid;
+  grid-auto-flow: row;
+}
+
+.details {
+  display: flex;
+  gap: 1rem;
+}
+
+@media screen and (max-width: 1366px) {
+  h1 {
+    font-size: 90%;
+  }
+}

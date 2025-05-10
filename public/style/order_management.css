@@ -1,0 +1,1100 @@
+@import url(/variables.css);
+
+/*#region styles */
+* {
+  font-family: var(--main-font);
+}
+
+* ::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+* ::-webkit-scrollbar-thumb {
+  background-color: #555861; /* Scrollbar thumb color */
+  border-radius: 10px;
+}
+
+* ::-webkit-scrollbar-track {
+  background-color: #0c0c1862; /* Scrollbar track color */
+}
+
+body {
+  font-family: var(--main-font);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  display: grid;
+  width: 100dvw;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/images/GNW_logo.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.04;
+  z-index: -1;
+}
+
+.error-div {
+  color: var(--alert-text-color);
+}
+
+.selected {
+  background-color: rgba(
+    42,
+    86,
+    175,
+    0.7
+  ); /* Light blue background for selected rows */
+  transition: background-color 0.5s ease 0ms;
+}
+
+.out-of-stock {
+  background-color: rgba(245, 77, 77, 0.7); /* Change to your desired color */
+  color: var(--text-color); /* Change text color for better contrast */
+}
+
+.alert-div {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50; /* Green */
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.alert-div.error {
+  background-color: #f44336; /* Red */
+}
+
+/*#endregion*/
+
+/*#region CONTAINERS*/
+
+.main-container {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 70% 30%;
+  z-index: 0;
+  height: 95dvh;
+  margin-left: 4dvw;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.header {
+  margin: 5px 0;
+  padding: 5px 0;
+}
+
+.header h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.product-container {
+  padding: 10px 15px 5px 15px;
+  margin: 0 20px 0 20px;
+  background: rgba(46, 46, 63, 0.7);
+  max-height: 100%;
+  overflow: auto;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 3px;
+}
+
+.receipt-container {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px 5px 15px;
+  background: rgba(46, 46, 63, 0.7);
+  max-height: 100%;
+  overflow: hidden;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 3px;
+}
+
+/*#endregion*/
+
+/*#region TABLE*/
+
+.table-container {
+  max-height: 100%; /* Adjust this height as needed */
+  overflow-y: auto;
+}
+
+#product-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#product-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+#product-table th,
+#product-table td {
+  padding: 14px 0 14px 6px;
+  text-align: left;
+}
+
+#product-table th {
+  background: rgba(46, 46, 63, 1);
+  color: #dfdbd5;
+  font-size: 2dvh;
+  padding: 14px 0 14px 6px;
+}
+
+.product-container {
+  overflow-y: hidden !important;
+}
+
+.product-container table {
+  border-spacing: 5px;
+  width: 100%;
+}
+
+td {
+  cursor: pointer;
+  font-size: 1.5dvh;
+  transition: transform 0.5s ease 0ms;
+  padding: 10px 0 10px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  border-bottom: 1px solid #333;
+}
+
+.product-container table tbody tr:hover {
+  background-color: rgba(69, 71, 92, 0.7);
+}
+
+.product-container table td:nth-child(1) {
+  padding-left: 10px;
+  width: 80%;
+}
+
+.product-container table td:nth-child(2) {
+  width: 10%;
+  padding-left: 5px;
+}
+
+.product-container table td:nth-child(3),
+.product-container table th:nth-child(3) {
+  width: 10%;
+  text-align: center;
+}
+
+.product-container table td:nth-child(3) {
+  color: var(--price-color);
+}
+
+.search-div {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  width: 100%;
+}
+
+.search-div input {
+  width: 70%;
+}
+
+.search-div input:focus {
+  outline: none; /* Remove the default outline */
+  border: none; /* Ensure no border appears when focused */
+}
+
+.product-container input[type="text"] {
+  background-color: transparent !important;
+  border-style: none;
+  color: var(--text-color);
+}
+
+/*#endregion*/
+
+/*#region RECIEPT*/
+
+/*#region TOP CONTAINER*/
+
+.top-container {
+  flex: 8;
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-bottom: 20px;
+  background-color: transparent !important;
+}
+.product-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-item {
+  height: fit-content;
+  min-width: 100%;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-areas:
+    "product-name product-brand product-price total-price"
+    "deselect-product . product-actions transfer-product";
+  gap: 10px;
+  align-items: left;
+  justify-content: center;
+  border-bottom: 1px solid var(--table-td-line-color);
+  padding: 10px 0;
+  font-size: 1.5dvh;
+}
+
+.product-item-table-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr; /* Adjust the columns structure to match the product item grid */
+  grid-template-areas: "product-name product-brand product-price total-price";
+  gap: 10px;
+  background-color: var(--table-th-bg-color);
+  align-items: left;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  font-size: 2dvh;
+  border-bottom: #dfdbd5 1px solid;
+}
+
+.product-item-table-header span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.product-item-table-header .product-name-header {
+  grid-area: product-name;
+}
+
+.product-item-table-header .product-brand-header {
+  text-align: center;
+  grid-area: product-brand;
+}
+
+.product-item-table-header .product-price-header {
+  text-align: center;
+  grid-area: product-price;
+}
+
+.product-item-table-header .total-price-header {
+  text-align: center;
+  grid-area: total-price;
+}
+
+.product-deselect-product {
+  grid-area: deselect-product;
+}
+
+.deselect {
+  background-color: transparent;
+  border-style: none;
+  cursor: pointer;
+  color: rgba(226, 69, 69, 0.801);
+  transition: color 0.3s ease;
+  font-size: 1.7dvh;
+}
+.deselect:hover {
+  color: rgb(183, 15, 15);
+}
+
+.product-name {
+  grid-area: product-name;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.product-brand {
+  text-align: center;
+  grid-area: product-brand;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-price {
+  text-align: center;
+  grid-area: product-price;
+}
+
+.total-price {
+  color: var(--price-color);
+  grid-area: total-price;
+  text-align: center;
+  transition: transform 0.5s ease;
+}
+
+.total-price:hover {
+  transform: scale(1.2);
+}
+
+.product-actions {
+  grid-area: product-actions;
+  display: flex;
+  justify-content: center;
+}
+
+.transfer-product {
+  background-color: transparent !important;
+  cursor: pointer;
+  border-style: none;
+  text-align: center;
+  grid-area: transfer-product;
+  color: rgb(49, 210, 60);
+  transition: color 0.3s ease;
+}
+.transfer-product:hover {
+  color: rgb(16, 152, 25);
+}
+
+.minus,
+.plus {
+  background: var(--button-bg-color);
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.quantity-input {
+  width: 50px;
+  text-align: center;
+  color: var(--alert-text-color);
+  background-color: transparent;
+  border-style: hidden;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For Firefox */
+.quantity-input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+#total-price,
+#discount {
+  color: var(--price-color);
+  transition: transform 0.5s ease-in-out;
+  transform: scale(1);
+  margin-right: 10px;
+  text-align: right;
+}
+
+#submit-order-button {
+  width: 100%;
+  background-color: #45ac48;
+  color: var(--text-color);
+  cursor: pointer;
+  color: var(--text-color);
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+#submit-order-button:hover {
+  background-color: #227226;
+  transform: translateX(5px); /* Adjust the value to slide right */
+}
+
+#apply-discount {
+  width: 100%;
+  background-color: #45ac48;
+  color: var(--text-color);
+  cursor: pointer;
+  color: var(--text-color);
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+#apply-discount:hover {
+  background-color: #227226;
+  transform: translateX(5px); /* Adjust the value to slide right */
+}
+
+/*#endregion*/
+
+/*#region BOTTOM CONTAINER*/
+
+.bottom-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  gap: 10px; /* Add gap between elements */
+  bottom: 10px;
+  justify-content: flex-end; /* Ensure content is pushed to the bottom */
+  margin-top: auto;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.button-container > * {
+  flex: 1;
+}
+
+.transparent-button {
+  border: solid 1px rgb(255, 255, 255);
+}
+
+.bottom-container .button-container button {
+  border: none;
+  color: var(--text-color);
+  padding: 10px 20px;
+  width: 33%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.3s ease-out 1ms;
+}
+
+#discount-button {
+  background-color: #1e7ed2;
+  color: var(--text-color);
+}
+
+#discount-button:hover {
+  background-color: #0c4b8a;
+}
+
+#cancel-order-button {
+  background-color: #e53935;
+  color: var(--text-color);
+}
+#cancel-order-button:hover {
+  background-color: #911e1e;
+}
+
+#process-order-modal-button {
+  background-color: #45ac48;
+  color: var(--text-color);
+}
+#process-order-modal-button:hover {
+  background-color: #227226;
+}
+
+/* Example styles for specific buttons */
+#discount-button:disabled,
+#cancel-order-button:disabled,
+#process-order-modal-button:disabled {
+  background-color: #cccccc; /* Light grey background */
+  color: #666666; /* Dark grey text */
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Optional: To keep the button's shape and size consistent */
+button:disabled {
+  box-shadow: none;
+  border: none;
+}
+
+/*#endregion*/
+
+/*#endregion*/
+
+/*#region MODAL*/
+/* Modal styles */
+
+.actions-div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.actions-div > * {
+  flex: 1;
+  min-width: fit-content;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  background-color: rgba(0, 0, 0, 0.589);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out; /* Smooth transition for opacity */
+}
+
+.modal.show {
+  display: block; /* Show the modal */
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: var(--modal-bg-color);
+  position: fixed; /* Center the modal */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  width: 60%;
+  max-height: 90vh; /* Ensure the modal doesn't exceed the viewport height */
+  overflow: hidden; /* Hide overflow to keep modal content within bounds */
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.modal.show .modal-content {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+table tr:nth-last-child() {
+  margin-bottom: 10rem;
+}
+
+#logs-modal h1 {
+  margin: 0;
+  padding: 0;
+  height: 50px;
+  border-left: solid 3px var(--orange);
+  padding-left: 5px;
+}
+
+#logs-modal .modal-content {
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+#logs-modal .logs-section {
+  max-height: calc(85% - 60px);
+  scroll-snap-align: end;
+  margin-bottom: 20px;
+  background-color: rgba(23, 23, 31, 0.459);
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+#logs-modal #refund-logs {
+  scroll-snap-align: center;
+}
+
+#refund-logs {
+  overflow-y: auto;
+}
+
+#Refund-products-table,
+#sales-table,
+#refund-logs {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#Refund-products-table th,
+#sales-table th,
+#refund-logs th {
+  background-color: #1f242d;
+}
+
+.logs-section thead {
+  position: sticky;
+  top: 0; /* Sticks the header to the top of the container */
+  background-color: var(
+    --modal-bg-color
+  ); /* Ensures the header has a background */
+  z-index: 1; /* Ensures the header stays above the rows */
+}
+
+#Refund-products-table th,
+#Refund-products-table td,
+#sales-table th,
+#sales-table td {
+  padding: 2px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.sold-products {
+  max-height: 90vh; /* Set max height for the table container */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+#sold-products-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#sold-products-table thead {
+  position: sticky;
+  top: 0; /* Sticks the header to the top of the container */
+  background-color: var(
+    --modal-bg-color
+  ); /* Ensures the header has a background */
+  z-index: 1; /* Ensures the header stays above the rows */
+}
+
+#sold-products-table th,
+#sold-products-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#sold-products-table td:nth-child(3) {
+  text-align: center;
+}
+
+.green-button {
+  background-color: var(--green);
+}
+
+.orange-button {
+  background-color: var(--orange);
+}
+
+.red-button {
+  background-color: var(--red);
+}
+
+.view-button {
+  background-color: #1e7ed2;
+  color: var(--text-color);
+  width: auto;
+  font-size: 1.3dvh;
+}
+
+.view-button:hover {
+  background-color: #0c4b8a;
+}
+
+#sales-table th[colspan="2"] {
+  text-align: center; /* Center text in the Actions header */
+}
+
+#sales-table td[colspan="2"] {
+  text-align: center; /* Center text in the Actions header */
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: rgb(92, 88, 88);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#payment-form {
+  margin-top: 20px;
+}
+
+#payment-form label {
+  display: block;
+  margin-top: 10px;
+}
+
+#payment-form input {
+  display: block;
+  margin-bottom: 10px;
+  width: 95%;
+  padding: 8px;
+}
+
+#discount-amount {
+  display: block;
+  margin-bottom: 10px;
+  width: 95%;
+  padding: 8px;
+}
+
+#payment-form select {
+  display: block;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+}
+
+#e-wallet-details {
+  margin-top: 20px;
+}
+
+/* Form Styles */
+.modal-content label {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"] {
+  width: calc(100% - 10px);
+  border: 0;
+  background: rgba(32, 31, 36, 0.7);
+  appearance: none;
+  position: relative;
+  border-radius: 3px;
+  padding: 9px 12px;
+  line-height: 1.7;
+  color: --var(--text-color);
+  font-size: 16px;
+  font-weight: 400;
+  transition: all 0.1s ease;
+  &:hover {
+    box-shadow: 0 0 0 0 #fff inset, #a7c9eb 0 0 0 2px;
+  }
+  &:focus {
+    background: rgba(32, 31, 36, 0.7);
+    outline: 0;
+    box-shadow: 0 0 0 0 #fff inset, #a7c9eb 0 0 0 3px;
+  }
+}
+
+.modal-content button {
+  color: white;
+  padding: 10px 20px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.5s ease 0ms;
+}
+
+#bank-transfer-details button {
+  transition: height 0.5s ease 0ms;
+}
+
+#bank-transfer-details select {
+  border-radius: 3px;
+  background: rgba(32, 31, 36, 0.7); /* Make the background transparent */
+  font-family: var(--main-font);
+  color: --var(--text-color); /* Text color */
+  border: 0; /* Optional border */
+  outline: none; /* Remove default outline */
+  transition: border-color 0.3s ease, background-color 0.3s ease; /* Add transition */
+}
+
+/* Style the option elements */
+#bank-transfer-details option {
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  color: #c7fbfc; /* Text color */
+}
+#process-order-modal .modal-content {
+  width: 20%;
+}
+
+#discount-modal .modal-content {
+  width: 17%;
+}
+
+#logs-modal .modal-content {
+  width: 85%;
+  height: 85%;
+}
+
+.payment-method-buttons {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.payment-method-buttons > * {
+  flex-basis: 0;
+  flex-grow: 1;
+}
+
+.payment-button {
+  background-color: #03ff1418;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    transform 0.3s ease, box-shadow 0.3s ease;
+  transform: scale(1); /* Set the default scale */
+}
+
+/* Styles for the active button */
+.payment-button.active {
+  background-color: #1c5f20; /* Slightly darker background */
+  color: #ffffff; /* Text color */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow effect */
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+}
+
+/* Hover effect for the button */
+.payment-button:hover {
+  background-color: #227226; /* Slightly lighter background on hover */
+  border-color: #ffffff; /* White border on hover */
+}
+
+/* Click effect for the button */
+.payment-button:active {
+  background-color: #1e6421; /* Darker shade when clicked */
+  transform: scale(0.95); /* Slightly scale down */
+  transition: background-color 0.1s ease, transform 0.1s ease; /* Quick transition for click effect */
+}
+
+/*#endregion*/
+
+#refund-products-modal .modal-content {
+  width: 500px;
+}
+
+#sold-products-modal .modal-content {
+  width: 500px;
+  overflow: hidden;
+}
+
+tbody tr:hover {
+  background-color: var(--hvr-row);
+}
+
+#sales-table table td:nth-child(1),
+#sales-table table td:nth-child(2),
+#sales-table table td:nth-child(3),
+#sales-table table td:nth-child(4),
+#sales-table table td:nth-child(5),
+#sales-table table td:nth-child(6),
+#sales-table table td:nth-child(7),
+#sales-table table th:nth-child(1),
+#sales-table table th:nth-child(2),
+#sales-table table th:nth-child(3),
+#sales-table table th:nth-child(4),
+#sales-table table th:nth-child(5),
+#sales-table table th:nth-child(6),
+#sales-table table th:nth-child(7) {
+  text-align: center;
+}
+#refund-logs table td:nth-child(1),
+#refund-logs table td:nth-child(2),
+#refund-logs table td:nth-child(3),
+#refund-logs table td:nth-child(4),
+#refund-logs table td:nth-child(5),
+#refund-logs table td:nth-child(6) {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.todays-sales {
+  color: var(--price-color);
+}
+
+.green-button {
+  color: var(--green);
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+.green-button:hover {
+  background-color: var(--hvr-green);
+  color: var(--text-color);
+}
+
+.orange-button {
+  color: var(--orange);
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+.orange-button:hover {
+  background-color: var(--hvr-orange);
+  color: var(--text-color);
+}
+
+.red-button {
+  color: var(--red);
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+.red-button:hover {
+  background-color: var(--hvr-red);
+  color: var(--text-color);
+}
+
+input:hover,
+input:focus {
+  outline: none; /* Removes the focus outline */
+  border: none; /* Ensures no border is applied */
+  /* Optional: Add custom border or box-shadow if needed */
+}
+/*#region MEDIA QUERIES*/
+/* General Styles (unchanged) */
+
+/* Media query for screens smaller than 1920px */
+@media (max-width: 1919px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  .main-container {
+    grid-template-columns: 65% 35%; /* Adjust column sizes */
+    margin-left: 3dvw; /* Reduce margin */
+    padding: 1.5rem; /* Adjust padding */
+  }
+
+  .product-container {
+    padding: 0.5rem 15px 5px 15px;
+  }
+
+  .receipt-container {
+    padding: 8px 8px 4px 8px;
+  }
+
+  th,
+  td {
+    font-size: 1.4dvh; /* Slightly reduce font size */
+  }
+
+  .product-item {
+    font-size: 1.4dvh;
+  }
+
+  #submit-order-button {
+    transform: translateX(4px); /* Adjust slide effect */
+  }
+
+  /* Adjust modal content width for smaller screens */
+  .modal-content {
+    width: 80%; /* Adjust modal width */
+  }
+
+  /* Adjust product table column widths */
+  .product-container table td:nth-child(1) {
+    width: 75%; /* Adjust width for smaller screens */
+  }
+
+  .product-container table td:nth-child(2) {
+    width: 15%; /* Adjust width for smaller screens */
+  }
+
+  .product-container table td:nth-child(3),
+  .product-container table th:nth-child(3) {
+    width: 10%; /* Keep as is or adjust if needed */
+  }
+
+  /* Adjust button sizes and spacing */
+  .button-container button {
+    padding: 8px 18px;
+  }
+
+  /* Adjust modal input and select fields */
+  #payment-form input,
+  #payment-form select {
+    padding: 6px;
+    font-size: 0.9rem;
+  }
+
+  /* Adjust modal header and close button */
+  .modal-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .close-button {
+    font-size: 1.8rem;
+  }
+}
+
+/* Media query for screens smaller than 1366px */
+@media (max-width: 1366px) {
+  .main-container {
+    grid-template-columns: 65% 35%; /* Stack columns on top of each other */
+    margin-left: 4dvw;
+    padding: 1rem;
+  }
+
+  .product-container,
+  .receipt-container {
+    padding: 5px;
+    max-height: 90dvh; /* Adjust height */
+  }
+
+  th,
+  td {
+    font-size: 1.6dvh;
+  }
+
+  .product-item {
+    font-size: 1.5dvh;
+  }
+
+  .product-item-table-header {
+    font-size: 1.7dvh;
+  }
+
+  #total-price,
+  #discount {
+    font-size: 1.1rem; /* Adjust text size */
+    transform: scale(1); /* Adjust scale effect */
+  }
+
+  #submit-order-button {
+    font-size: 1rem;
+  }
+}
+
+/* Media query for screens smaller than 1024px */
+@media (max-width: 1024px) {
+  .main-container {
+    grid-template-columns: 100%; /* Full width */
+    padding: 0.5rem;
+  }
+
+  .product-container {
+    padding: 10px 5px;
+  }
+
+  .receipt-container {
+    padding: 5px;
+  }
+
+  th,
+  td {
+    font-size: 1rem;
+  }
+
+  .product-item {
+    font-size: 1rem;
+  }
+
+  #total-price,
+  #discount {
+    font-size: 1.2rem;
+  }
+
+  #submit-order-button {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+
+  .modal-content {
+    width: 90%; /* Full width for small screens */
+  }
+}
+
+/*#endregion*/

@@ -1,0 +1,44 @@
+@font-face {
+  font-family: "HeaderFont";
+  src: url("/assets/font/Poppins-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "MainFont";
+  src: url("/assets/font/Poppins-Light.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "TitleFont";
+  src: url("/assets/font/Poppins-Medium.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+:root {
+  --bg-color: #0f0f16;
+  --container-color: rgba(22, 33, 62, 0.5);
+  --text-color: #dddad5;
+  --button-color: #295b7f;
+  --button-color-hover: #0f293a;
+  --header-font: "HeaderFont", sans-serif;
+  --main-font: "MainFont", sans-serif;
+  --title-font: "TitleFont", sans-serif;
+  --alert-text-color: #ffaf45;
+  --side-nav-color: rgba(11, 17, 34, 0.89);
+  --modal-bg-color: #0f0d1e;
+  --table-bg-color: rgba(32, 32, 38, 0.7);
+  --table-th-line-color: #e3e3ec;
+  --table-td-line-color: #4e4e58;
+  --price-color: #6bdceb;
+  --green: #227226;
+  --hvr-green: #134d17;
+  --red: #c02f27;
+  --hvr-red: #a0302a;
+  --orange: #c0861a;
+  --hvr-orange: #b47c15cc;
+  --btn-default: #3336423f;
+  --hvr-row: #2f324149;
+  --gray: #4d4d50;
+}

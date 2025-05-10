@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/general_styles.css" />
+    <link rel="stylesheet" href="/style/admin.css" />
+    <link rel="stylesheet" href="/style/admin_manage_inventory.css" />
+    <script src="/script/admin_add_product_modal.js" defer></script>
+    <script src="/script/admin_table_behavior_and_actions.js" defer></script>
+    <script src="/script/admin_edit_product_modal.js" defer></script>
+    <script src="/script/admin_restock_product_modal.js" defer></script>
+    <script src="/script/admin_archive_product_modal.js" defer></script>
+    <script src="/script/admin_manage_category_modal.js" defer></script>
+    <title>GNW | Inventory</title>
+  </head>
+  <body>
+    <!-- Custom Alert Container -->
+    <div class="alert-div" id="customAlertContainer"></div>
+
+    <nav class="side-nav">
+      <%- include('./components/admin_main_navigation.ejs') %>
+    </nav>
+    <div class="left-container">
+      <div class="top-container">
+        <div>
+          <h1>Inventory</h1>
+        </div>
+
+        <div class="filter-section">
+          <div class="button-container add-product">
+            <button
+              id="openAddProductModalButton"
+              class="add-product-btn"
+              title="ADD PRODUCT"
+            >
+              +
+            </button>
+          </div>
+
+          <div class="search-div">
+            <div class="search-bar filter">
+              <img
+                src="/assets/images/search-icon.png"
+                alt=""
+                style="width: 20px"
+              />
+              <label for="searchInput"> </label>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="What are you looking for?"
+                class="search-input"
+              />
+            </div>
+          </div>
+
+          <div class="filter manage-category">
+            <button id="manageCategoriesButton" class="transparent-button">
+              Categories
+            </button>
+          </div>
+          <div class="filter branch">
+            <label for="branchFilter">Branch:</label>
+            <select id="branchFilter" class="select-input">
+              <option value="all">All Branches</option>
+              <% branches.forEach(branch => { %>
+              <option value="<%= branch.branch_name %>">
+                <%= branch.branch_name %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+
+          <div class="filter stock">
+            <label for="stockSort">Stock:</label>
+            <select id="stockSort" class="select-input">
+              <option value="all">All</option>
+              <!-- New "All" option added -->
+              <option value="lowToHigh">Low</option>
+              <option value="highToLow">High</option>
+            </select>
+          </div>
+
+          <div class="filter category">
+            <label for="categorySort">Category:</label>
+            <select id="categorySort" class="select-input">
+              <option value="all">All</option>
+              <option value="undefined">Undefined</option>
+              <% categories.forEach(category => { %>
+              <option value="<%= category.product_category %>">
+                <%= category.product_category %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+
+          <div class="filter supplier">
+            <label for="supplierSort">Supplier:</label>
+            <select id="supplierSort" class="select-input">
+              <option value="all">All</option>
+              <% suppliers.forEach(supplier => { %>
+              <option value="<%= supplier.supplier_name %>">
+                <%= supplier.supplier_name %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+
+          <button id="filterButton" class="transparent-button filter-button">
+            Filter
+          </button>
+        </div>
+      </div>
+
+      <%- include('./components/inventory_table', { products: products }) %>
+    </div>
+
+    <div class="right-container">
+      <%- include('./components/inventory_management_nav.ejs') %>
+
+      <div class="legend-container">
+        <h4>LEGEND</h4>
+        <div>
+          <div class="circle green"></div>
+          <span> - MORE THAN 5</span>
+        </div>
+        <div>
+          <div class="circle orange"></div>
+          <span> - UNDER THAN 5</span>
+        </div>
+        <div>
+          <div class="circle red"></div>
+          <span> - OUT OF STOCK</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="archiveModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeArchiveModal">&times;</span>
+        <p>Are you sure you want to archive this product?</p>
+        <button id="confirmArchiveButton" class="sliding-button">
+          Confirm
+        </button>
+      </div>
+    </div>
+
+    <div id="restockModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Restock/Destock Product</h2>
+        <p id="productNameLabel"></p>
+        <p id="currentStockLabel">
+          Current Stock: <span id="currentStock"></span>
+        </p>
+        <label for="restockInput">Enter value: </label>
+        <div id="err-restock-product"></div>
+        <input
+          type="number"
+          id="restockInput"
+          name="restockInput"
+          min="0"
+          required
+        />
+        <button id="restockSubmit" class="green-button">Restock</button>
+        <button id="voidStockButton" class="red-button">Destock</button>
+      </div>
+    </div>
+
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <span class="close closeModalButton">&times;</span>
+        <h2>Edit Product</h2>
+
+        <input type="hidden" id="editProductId" />
+
+        <div class="details">
+          <div>
+            <div id="err-product-name"></div>
+            <label for="editProductName">Product Name</label>
+            <input type="text" id="editProductName" name="product_name" />
+          </div>
+          <div>
+            <div id="err-product-brand"></div>
+            <label for="editProductBrand">Brand</label>
+            <input type="text" id="editProductBrand" name="product_brand" />
+          </div>
+        </div>
+
+        <div class="details">
+          <div>
+            <div id="err-product-cost"></div>
+            <label for="editProductCost">Cost</label>
+            <input
+              type="number"
+              id="editProductCost"
+              name="product_cost"
+              step="0.01"
+            />
+          </div>
+
+          <div>
+            <div id="err-product-price"></div>
+            <label for="editProductPrice">Price</label>
+            <input
+              type="number"
+              id="editProductPrice"
+              name="product_price"
+              step="0.01"
+            />
+          </div>
+        </div>
+
+        <div class="details">
+          <div>
+            <label>Category</label>
+            <select id="categorySelect">
+              <option value="" disabled selected>Select Category</option>
+              <!-- Hint option -->
+              <% categories.forEach(category => { %>
+              <option
+                value="<%= category.product_category_id %>"
+                data-name="<%= category.product_category %>"
+              >
+                <%= category.product_category %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+        </div>
+
+        <div class="bottom-section">
+          <button id="saveChangesButton" class="sliding-button">
+            Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="addProductModal" class="modal">
+      <div class="modal-content">
+        <span class="close closeModalButton">&times;</span>
+        <h2>Add Product</h2>
+
+        <div class="details-container">
+          <div class="details">
+            <div>
+              <label for="productStockInput">Product Stock</label>
+              <input type="number" id="productStockInput" required />
+              <div id="productStockPrompt" class="prompt"></div>
+            </div>
+            <div>
+              <label style="margin-bottom: 4px" for="productStockInput"
+                >Select Branches</label
+              >
+              <div class="dropdown">
+                <div class="dropdown-header">Branches</div>
+
+                <div class="dropdown-content">
+                  <% branches.forEach(branch => { %>
+                  <div class="branch-options">
+                    <label for="branch_<%= branch.branch_id %>">
+                      <%= branch.branch_name %>
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="branch_<%= branch.branch_id %>"
+                      name="branches"
+                      value="<%= branch.branch_id %>"
+                    />
+                  </div>
+                  <% }); %>
+                </div>
+              </div>
+              <div id="branchesPrompt" class="prompt"></div>
+            </div>
+          </div>
+
+          <div class="details">
+            <div>
+              <label for="productNameInput">Product Name</label>
+              <input type="text" id="productNameInput" required />
+              <div id="productNamePrompt" class="prompt"></div>
+            </div>
+
+            <div>
+              <label for="productBrandInput">Product Brand</label>
+              <input type="text" id="productBrandInput" required />
+              <div id="productBrandPrompt" class="prompt"></div>
+            </div>
+          </div>
+
+          <div class="details">
+            <div>
+              <label for="productCostInput">Product Cost</label>
+              <input type="number" id="productCostInput" required />
+              <div id="productCostPrompt" class="prompt"></div>
+            </div>
+            <div>
+              <label for="productPriceInput">Product Price</label>
+              <input type="number" id="productPriceInput" required />
+              <div id="productPricePrompt" class="prompt"></div>
+            </div>
+          </div>
+
+          <div class="details">
+            <div>
+              <label>Supplier</label>
+              <select id="addSupplierSelect">
+                <option value="" disabled selected>Select Supplier</option>
+                <!-- Default unclickable option -->
+                <% suppliers.forEach(supplier => { %>
+                <option value="<%= supplier.supplier_id %>">
+                  <%= supplier.supplier_name %>
+                </option>
+                <% }); %>
+              </select>
+              <div id="productSupplierPrompt" class="prompt"></div>
+            </div>
+            <div>
+              <label>Category</label>
+              <select id="addCategorySelect">
+                <option value="" disabled selected>Select Category</option>
+                <!-- Default unclickable option -->
+                <% categories.forEach(category => { %>
+                <option value="<%= category.product_category_id %>">
+                  <%= category.product_category %>
+                </option>
+                <% }); %>
+              </select>
+              <div id="categoryPrompt" class="prompt"></div>
+            </div>
+          </div>
+          <button id="addProductButton" class="sliding-button">
+            Add Product
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="categoryModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeCategoryModal">&times;</span>
+        <h2>Manage Categories</h2>
+
+        <!-- Input for adding or editing a category -->
+
+        <div id="categoryForm" class="details">
+          <div>
+            <input type="text" id="categoryInput" placeholder="Category Name" />
+            <div id="err-category-name" class="prompt"></div>
+          </div>
+
+          <div style="align-items: center">
+            <div class="dropdown" style="margin-top: 4px">
+              <div class="dropdown-header">Select Category</div>
+              <ul id="categoryList" class="dropdown-content">
+                <% categories.forEach(function(category) { %>
+                <li data-category-id="<%= category.product_category_id %>">
+                  <%= category.product_category %>
+                </li>
+                <% }) %>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="details">
+          <button id="saveCategoryBtn" class="sliding-button">
+            Create/Save
+          </button>
+          <button id="deleteCategoryBtn" class="sliding-button red">
+            Delete Selected Category
+          </button>
+        </div>
+
+        <!-- List of categories populated by EJS -->
+      </div>
+    </div>
+  </body>
+</html>

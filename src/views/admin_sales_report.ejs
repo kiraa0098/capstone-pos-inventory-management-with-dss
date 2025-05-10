@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/style/general_styles.css" />
+    <link rel="stylesheet" href="/style/admin_sales&reports.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/script/admin_sales_report.js"></script>
+    <title> GNW | Sales and Report</title>
+  </head>
+  <body>
+
+    <nav class="side-nav">
+      <%- include('./components/admin_main_navigation.ejs') %>
+    </nav>
+      
+    <div class="container">
+        
+        <h1>
+        Sales Report
+        </h1>
+        
+        <div class="top-container">
+            <div class="total-sales" id="totalsSection">
+              <h3>Gross Revenue:</h3>
+              <p id="totalSales">Loading...</p>
+            </div>
+            <div class="net-revenue">
+              <h3>Net Revenue:</h3>
+              <p id="netRevenue">₱0</p>
+            </div>
+            
+            <div class="year-filter">
+              <label for="yearSelect">Select Year:</label>
+              <select id="yearSelect" class="select-input">
+                <option value="" disabled selected>Select Year</option>
+                <!-- Options will be populated dynamically -->
+              </select>
+            </div>
+
+            <div class="branch-filter">
+              <label for="branchSelect">Select branch:</label>
+              <select id="salesBranchSelect" class="select-input">
+                <option value="" disabled selected>Select Branch</option>
+                <!-- Options will be populated dynamically -->
+              </select>
+            </div>
+            <div class="Logs">
+              <button id="openLogs" class="transparent-button">Logs</button>
+            </div>
+            <button id="openExportModalBtn" class="transparent-button">Export</button>
+            <button id="openDailySales" class="transparent-button">Daily Sales</button>
+            <button id="openWeeklySales" class="transparent-button">Weekly Sales</button>
+          
+        </div>
+  
+        <div class="bar-graph-section">
+          <h2>Sales Overview</h2>
+          <div class="chart-container">
+            <canvas id="simpleBarChart"></canvas>
+          </div>
+        </div>
+
+      
+        
+        <div class="pie-graph-section">
+          <h2>Branch Performance</h2>
+          <div class="chart-container">
+            <canvas id="branchPieChart"></canvas>
+          </div>
+        </div>
+
+        
+  
+        <div id="top-products" class="top-products-section">
+          <h2>Top Products</h2>
+          <div id="topProductsTable" class="logs-section">
+            
+            <table id="topProductsTable">
+              <thead>
+                <tr>
+                  <th>Product Name </th>
+                  <th>Sold</th>
+                </tr>
+              </thead>
+              <tbody id="topProductsBody">
+                <!-- Dynamic Data will be inserted here -->
+
+                <tr style="height: 30rem"></tr>
+                
+              </tbody>
+            </table>
+          </div>
+        </div>        
+      </div>
+    
+      <!-- Daily Sales modal -->
+      <div id="dailySalesModal" class="modal">
+        <div class="modal-content">
+          <span id="closeDailySales" class="close">&times;</span>
+          
+          <!-- Filter Section -->
+          <div id="action" class="filters">
+            <select id="dailyYearSelect" class="select-input">            
+            </select>
+            
+            <select id="dailyMonthSelect" class="select-input">
+            </select>
+
+            <select id="dailyBranchSelect" class="select-input">
+            </select>
+          </div>
+
+          <!-- bar chart -->
+          <div class="bar-graph-section">
+            <h2>Daily Sales</h2>
+            <div class="chart-container">
+              <canvas id="dailysimpleBarChart"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Weekly Sales modal -->
+      <div id="weeklySalesModal" class="modal">
+        <div class="modal-content">
+          <span id="closeWeeklySales" class="close">&times;</span>
+          
+          <!-- Filter Section -->
+          <div id="action" class="filters">
+            <select id="weeklyYearSelect" class="select-input">            
+            </select>
+            
+            <select id="weeklyMonthSelect" class="select-input">
+            </select>
+
+            <select id="weeklyBranchSelect" class="select-input">
+            </select>
+          </div>
+
+          <!-- bar chart -->
+          <div class="bar-graph-section">
+            <h2>Weekly Sales</h2>
+            <div class="chart-container">
+              <canvas id="weeklysimpleBarChart"></canvas>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Logs modal -->
+      <div id="logsModal" class="modal">
+        <div class="modal-content">
+          <span id="closeLogs" class="close">&times;</span>
+          
+          <!-- Filter Section -->
+          <div id="action" class="filters">
+            <select id="logsYearSelect" class="select-input">            
+            </select>
+            
+            <select id="logsMonthSelect" class="select-input">
+            </select>
+
+            <select id="logsBranchSelect" class="select-input">
+            </select>
+          </div>
+
+          <!-- Table Section -->
+          
+          <h2>Transaction-logs</h2>
+            <div id="transaction-logs" class="logs-section">
+            <table id="transaction-logs">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Total price</th>
+                  <th>Payment mode</th>
+                  <th>Payment amount</th>
+                  <th>Discount</th>
+                  <th>Bank</th>
+                  <th>Transaction no.</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            </div>
+
+            <h2>Refund-logs</h2>
+            <div id="refund-logs" class="logs-section">
+            <table id="refund-logs">
+              <thead>
+                <tr>
+                  <th>Refund Date</th>
+                  <th>Customer Name</th>
+                  <th>Quantity Sold</th>
+                  <th>Total Price</th>
+                  <th>Reason</th>
+                  <th>Payment Amount</th>
+                  <th>Payment Mode</th>
+                  <th>Bank</th>
+                  <th>Transaction Number</th>
+                </tr>
+              </thead>
+              <tbody id="refundLogsList">
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- export Modal -->
+      <div id="exportModal" class="modal">
+        <div class="modal-content">
+          <span id="exportClose" class="close">&times;</span>
+          <h2>Export Report</h2>
+          <br>
+          <form id="exportForm">
+            <div class="filter" style="margin-bottom:1rem;">
+              <label for="yearSelect">Select Year:</label>
+            <select id="exportYearSelect" class="select-input">
+              <!-- Year options will be populated dynamically -->
+            </select>
+            </div>
+            <br />
+
+            <div class="filter" style="margin-bottom:1rem;">
+              <label for="monthSelect">Select Month:</label>
+            <select id="exportMonthSelect" class="select-input">
+              <option value="all">All</option>
+              <option value="1">January</option>
+              <option value="2">February</option>
+              <option value="3">March</option>
+              <option value="4">April</option>
+              <option value="5">May</option>
+              <option value="6">June</option>
+              <option value="7">July</option>
+              <option value="8">August</option>
+              <option value="9">September</option>
+              <option value="10">October</option>
+              <option value="11">November</option>
+              <option value="12">December</option>
+            </select>
+            </div>
+            <br />
+
+            <div class="filter" style="margin-bottom:1rem;">
+              <label for="branchSelect">Select Branch:</label>
+            <select id="branchSelect" class="select-input">
+              <!-- Branch options will be populated dynamically -->
+            </select>
+            </div>
+            <br />
+            
+            <button type="button" id="exportBtn" class="sliding-button">Export to CSV</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

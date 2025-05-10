@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/style/admin_manage_branch.css" />
+    <link rel="stylesheet" href="/variables.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="/script/admin_branch_management_toggle_switch.js"
+      defer
+    ></script>
+    <script src="/script/admin_branch_key_update.js" defer></script>
+    <script src="/script/admin_branch_edit.js" defer></script>
+    <title>GNW | <%= branch.branch_name %></title>
+  </head>
+  <body>
+    <div class="alert-div" id="customAlertContainer"></div>
+
+    <nav class="side-nav">
+      <%- include('./components/admin_main_navigation.ejs') %>
+    </nav>
+
+    <div class="wrapper">
+      <div class="branch-details">
+        <div class="left-container">
+          <div class="table-section">
+            <%- include('./components/branch_login_table.ejs', { branch,
+            loginHistory }) %>
+          </div>
+          <div class="details-container">
+            <div class="details">
+              <div>
+                <label>Branch Name</label>
+                <div
+                  style="color: var(--alert-text-color)"
+                  id="err-branch-name"
+                ></div>
+                <input
+                  type="text"
+                  id="branch-name"
+                  value="<%= branch.branch_name %>"
+                />
+              </div>
+              <div>
+                <label for="personel-in-charge">Personnel in charge</label>
+                <input
+                  type="text"
+                  id="personel-in-charge"
+                  value="<%= branch.personel_in_charge %>"
+                />
+              </div>
+            </div>
+
+            <div class="details">
+              <div>
+                <label>Province</label>
+                <input
+                  type="text"
+                  id="loc-province"
+                  value="<%= branch.loc_province %>"
+                />
+              </div>
+              <div>
+                <label>City</label>
+                <input
+                  type="text"
+                  id="loc-city"
+                  value="<%= branch.loc_city %>"
+                />
+              </div>
+            </div>
+
+            <div class="details">
+              <div>
+                <label>Baranggay</label>
+                <input
+                  type="text"
+                  id="loc-baranggay"
+                  value="<%= branch.loc_baranggay %>"
+                />
+              </div>
+
+              <div>
+                <label>Street Name</label>
+                <input
+                  type="text"
+                  id="loc-street-name"
+                  value="<%= branch.loc_street_name %>"
+                />
+              </div>
+            </div>
+
+            <div class="details">
+              <div>
+                <label>Building number</label>
+                <input
+                  type="text"
+                  id="loc-building"
+                  value="<%= branch.loc_building %>"
+                />
+              </div>
+
+              <div>
+                <label>House number</label>
+                <input
+                  type="text"
+                  id="loc-house-number"
+                  value="<%= branch.loc_house_number %>"
+                />
+              </div>
+            </div>
+
+            <div class="bottom-container">
+              <button id="save-info-btn" class="disabled" disabled>
+                Save changes
+              </button>
+
+              <button id="cancel-changes-info" class="disabled" disabled>
+                Cancel changes
+              </button>
+            </div>
+          </div>
+        </div>
+        <!--------------------------------------------------------------------------->
+        <div class="right-container">
+          <div class="status">
+            <div>
+              <label class="switch">
+                <input type="checkbox" id="branch-status" <%=
+                branch.branch_status ? 'checked' : '' %> />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="status-text">
+              <p id="status-text">
+                <%= branch.branch_status ? 'Active' : 'Inactive' %>
+              </p>
+            </div>
+          </div>
+          <div class="toggleTextDiv">
+            <div>
+              <p class="toggleText">
+                Toggle here to declare your branch status
+              </p>
+            </div>
+          </div>
+          <div class="BranchKeyBtnDIV">
+            <div><h3>Branch key</h3></div>
+            <div>
+              <button id="change-branch-key-btn">Change branch key</button>
+            </div>
+          </div>
+
+          <div id="branch-key-fields" style="display: none">
+            <div><label for="old-branch-key">Old branch key</label></div>
+
+            <div
+              style="color: var(--alert-text-color)"
+              id="err-old-branch-key"
+            ></div>
+
+            <div class="password-container">
+              <input type="password" id="old-branch-key" />
+              <img
+                src="/assets/images/eye-close.png"
+                id="old-branch-key-eyeIcon"
+                class="eyeIcon"
+                style="margin-left: 10px"
+              />
+            </div>
+
+            <div><label for="new-branch-key">New branch key</label></div>
+
+            <div
+              style="color: var(--alert-text-color)"
+              id="err-branch-key"
+            ></div>
+
+            <div class="password-container">
+              <input type="password" id="new-branch-key" />
+              <img
+                src="/assets/images/eye-close.png"
+                id="new-branch-key-eyeIcon"
+                class="eyeIcon"
+                style="margin-left: 10px"
+              />
+            </div>
+
+            <div>
+              <label for="confirm-branch-key">Confirm branch key</label>
+            </div>
+
+            <div
+              style="color: var(--alert-text-color)"
+              id="err-confirm-branch-key"
+            ></div>
+
+            <div class="password-container">
+              <input type="password" id="confirm-branch-key" />
+              <img
+                src="/assets/images/eye-close.png"
+                id="confirm-branch-key-eyeIcon"
+                class="eyeIcon"
+                style="margin-left: 10px"
+              />
+            </div>
+
+            <div><button id="confirm-new-branch-key-btn">Confirm</button></div>
+          </div>
+
+          <div class="forgot-branch-key">
+            <div>
+              <a href="/admin/branch/<%= branch.branch_id %>/forgot-branch-key"
+                >Forgot branch key?</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Password visibility toggle for old branch key
+      let oldBranchKeyEyeIcon = document.getElementById(
+        "old-branch-key-eyeIcon"
+      );
+      let oldBranchKeyField = document.getElementById("old-branch-key");
+
+      oldBranchKeyEyeIcon.onclick = function () {
+        if (oldBranchKeyField.type === "password") {
+          oldBranchKeyField.type = "text";
+          oldBranchKeyEyeIcon.src = "/assets/images/eye-open-two.png";
+        } else {
+          oldBranchKeyField.type = "password";
+          oldBranchKeyEyeIcon.src = "/assets/images/eye-close.png";
+        }
+      };
+
+      // Password visibility toggle for new branch key
+      let newBranchKeyEyeIcon = document.getElementById(
+        "new-branch-key-eyeIcon"
+      );
+      let newBranchKeyField = document.getElementById("new-branch-key");
+
+      newBranchKeyEyeIcon.onclick = function () {
+        if (newBranchKeyField.type === "password") {
+          newBranchKeyField.type = "text";
+          newBranchKeyEyeIcon.src = "/assets/images/eye-open-two.png";
+        } else {
+          newBranchKeyField.type = "password";
+          newBranchKeyEyeIcon.src = "/assets/images/eye-close.png";
+        }
+      };
+
+      // Password visibility toggle for confirm branch key
+      let confirmBranchKeyEyeIcon = document.getElementById(
+        "confirm-branch-key-eyeIcon"
+      );
+      let confirmBranchKeyField = document.getElementById("confirm-branch-key");
+
+      confirmBranchKeyEyeIcon.onclick = function () {
+        if (confirmBranchKeyField.type === "password") {
+          confirmBranchKeyField.type = "text";
+          confirmBranchKeyEyeIcon.src = "/assets/images/eye-open-two.png";
+        } else {
+          confirmBranchKeyField.type = "password";
+          confirmBranchKeyEyeIcon.src = "/assets/images/eye-close.png";
+        }
+      };
+    </script>
+  </body>
+</html>

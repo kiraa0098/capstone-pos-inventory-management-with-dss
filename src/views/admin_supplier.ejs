@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/style/general_styles.css" />
+    <link rel="stylesheet" href="/style/admin_supplier.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/script/admin_supplier_edit_modal.js" defer></script>
+    <title>GNW | Supplier</title>
+  </head>
+
+  <body>
+    <main>
+      <nav class="side-nav">
+        <%- include('./components/admin_main_navigation.ejs') %>
+      </nav>
+      <div class="main-container">
+        <div>
+          <div class="top-container">
+            <div><h2 style="margin: 0%">Supplier list</h2></div>
+            <div style="margin-left: auto; margin-right: 6%">
+              <form
+                class="form-container"
+                action="/admin/suppliers/add-supplier"
+                method="POST"
+              >
+                <input
+                  type="text"
+                  id="addname"
+                  name="supplier_name"
+                  placeholder="Name"
+                  maxlength="30"
+                />
+                <input
+                  type="tel"
+                  id="addcontact"
+                  name="supplier_contact"
+                  placeholder="Contact"
+                  required
+                />
+                <input
+                  type="text"
+                  id="addaddress"
+                  name="supplier_address"
+                  placeholder="Address"
+                  required
+                />
+                <button class="transparent-button" type="submit">
+                  Add Supplier
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delete Supplier Modal -->
+        <div id="deleteSupplierModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Are you sure you want to delete this supplier?</h2>
+            <p>This action cannot be undone.</p>
+            <div class="modal-actions">
+              <button id="confirmDeleteBtn" class="green-button">
+                Yes, Delete
+              </button>
+              <button id="cancelDeleteBtn" class="red-button">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Supplier Modal -->
+        <div id="editSupplierModal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Supplier</h2>
+            <form id="editSupplierForm">
+              <input type="hidden" id="supplierId" name="id" />
+              <div>
+                <label for="name">Supplier Name:</label>
+                <input type="text" id="name" name="supplier_name" required />
+              </div>
+              <div>
+                <label for="contact">Contact:</label>
+                <input
+                  type="text"
+                  id="contact"
+                  name="supplier_contact"
+                  required
+                />
+              </div>
+              <div>
+                <label for="address">Address:</label>
+                <textarea id="address" name="supplier_address"></textarea>
+              </div>
+              <button type="submit">Save Changes</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Supplier List -->
+        <div class="supplier-container">
+          <div class="supplier-list" id="supplier-list">
+            <% if (suppliers.length > 0) { %>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Contact</th>
+                  <th>Address</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% suppliers.reverse().forEach(supplier => { %>
+                <tr>
+                  <td><%= supplier.supplier_name %></td>
+                  <td><%= supplier.supplier_contact %></td>
+                  <td title="<%= supplier.supplier_address %>">
+                    <%= supplier.supplier_address %>
+                  </td>
+                  <td
+                    class="actions-buttons"
+                    style="display: flex; border-bottom: none"
+                  >
+                    <!-- Products Button -->
+                    <button
+                      class="transparent-button"
+                      id="details-button"
+                      data-supplier-id="<%= supplier.supplier_id %>"
+                    >
+                      <img src="/assets/images/details-icon.png" alt="Edit" />
+                    </button>
+                    <!-- Edit Button -->
+                    <button
+                      class="transparent-button"
+                      id="edit-button"
+                      onclick="openEditModal(<%= JSON.stringify(supplier) %>)"
+                    >
+                      <img src="/assets/images/edit-icon.png" alt="Edit" />
+                    </button>
+
+                    <!-- Delete Button -->
+                    <button
+                      class="transparent-button"
+                      id="delete-button"
+                      data-supplier-id="<%= supplier.supplier_id %>"
+                    >
+                      <img src="/assets/images/trash-icon.png" alt="Delete" />
+                    </button>
+                  </td>
+                </tr>
+                <% }) %>
+              </tbody>
+            </table>
+            <% } else { %>
+            <p>No suppliers found.</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Details Modal -->
+      <div id="editDetailsModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Edit Supplier Details</h2>
+          <form id="editDetailsForm">
+            <input type="hidden" id="editSupplierId" name="id" />
+            <div>
+              <label for="editDetails">Details:</label>
+              <textarea
+                id="editDetails"
+                name="supplier_details"
+                required
+              ></textarea>
+            </div>
+            <button type="submit">Save Changes</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

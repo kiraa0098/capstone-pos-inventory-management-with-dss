@@ -1,0 +1,139 @@
+* ::-webkit-scrollbar {
+  display: none;
+}
+
+h1 {
+  border-bottom: var(--orange) 3px solid;
+  margin: 0% auto;
+  text-wrap: nowrap;
+}
+select {
+  text-align: center;
+}
+option {
+  text-align: center;
+}
+
+body {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 85% 15%;
+}
+
+.left-container {
+  z-index: 0;
+  height: 100vh;
+  margin-left: 4dvw;
+  outline: 2px solid #1f242d; /* Adds a 2px white outline */
+}
+
+.right-container {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-rows: 10dvh 90dvh;
+  height: 80dvh;
+  margin-bottom: 5dvh;
+}
+
+.top-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  border: solid 1px rgba(31, 36, 45, 1);
+  gap: 1rem;
+  max-height: fit-content;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 70%;
+}
+
+.filter-section {
+  display: grid;
+  grid-auto-flow: column;
+  margin-left: auto;
+  gap: 0.5rem;
+}
+
+.filter-section input[type="number"] {
+  background: transparent;
+  border: #c0c6de;
+  color: var(--orange);
+  width: 15%;
+  font-weight: bold;
+}
+
+.submit-btn {
+  background-color: #1f242d;
+  padding: 5px 10px;
+  color: var(--text-color);
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 1s ease 0ms;
+}
+
+.submit-btn:hover {
+  background-color: #111a2b;
+}
+
+.bottom-container {
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0%;
+  border: solid 1px #1f242d;
+  overflow-y: scroll;
+}
+
+.table-container {
+  max-height: 100%; /* Adjust as needed */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+#productTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#productTable th,
+#productTable td {
+  font-size: 2dvh;
+  padding: 8px;
+  text-align: left; /* Optional: Add a border for clarity */
+}
+#productTable th {
+  background-color: #1f242d;
+}
+#productTable td {
+  border-bottom: 2.5px solid #3a3f51;
+}
+
+#productTable thead {
+  position: sticky;
+  top: 0;
+  z-index: 2; /* Ensure it stays above the body rows */
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  background: var(--thead-color);
+}
+
+#productTable th:nth-child(1),
+#productTable td:nth-child(1) {
+  text-align: left;
+}
+#productTable th:nth-child(2),
+#productTable td:nth-child(2) {
+  text-align: left;
+}
+#productTable th:nth-child(3),
+#productTable td:nth-child(3) {
+  text-align: center;
+}
+#productTable th:nth-child(4),
+#productTable td:nth-child(4) {
+  text-align: center;
+}

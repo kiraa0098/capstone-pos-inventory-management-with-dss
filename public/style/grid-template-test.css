@@ -1,0 +1,18 @@
+@media (max-width: 1366px) {
+  .container {
+    padding: 0.6rem;
+    margin-left: 4dvw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 0.7fr;
+    grid-template-rows: 0.3fr 0.8fr 1fr 0.8fr 1.6fr 0.9fr 1.1fr;
+    gap: 6px 6px;
+    grid-template-areas:
+      "header header header header"
+      "info-section info-section info-section pie-graph"
+      "bar-chart bar-chart bar-chart pie-graph"
+      "bar-chart bar-chart bar-chart pie-graph"
+      "bar-chart bar-chart bar-chart customer-table"
+      "bar-chart bar-chart bar-chart customer-table"
+      "bar-chart bar-chart bar-chart customer-table";
+  }
+}

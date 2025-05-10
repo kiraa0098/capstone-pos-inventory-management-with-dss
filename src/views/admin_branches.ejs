@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/general_styles.css" />
+    <link rel="stylesheet" href="/style/admin_branches.css" />
+    <link rel="stylesheet" href="/variables.css" />
+    <script src="/script/view_branch.js" defer></script>
+    <title>GNW | Admin</title>
+    <style>
+      .active {
+        color: green;
+      }
+      .inactive {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="side-nav">
+      <%- include('./components/admin_main_navigation.ejs') %>
+    </nav>
+
+    <div class="main-container">
+      <div class="top-container">
+        <div>
+          <a href="/admin/branch/add-branch">
+            <button id="add-branch-button" class="transparent-button">
+              + New Branch ?
+            </button>
+          </a>
+        </div>
+        <div class="date-container">
+          <h1 id="today-date"><%= today %></h1>
+        </div>
+      </div>
+
+      <div class="bottom-container">
+        <div id="branches" class="branches">
+          <% branches.forEach(branch => { %>
+          <div class="branch-cards" data-branch-id="<%= branch.branch_id %>">
+            <div class="top-section">
+              <div>
+                <h2><%= branch.branch_name %></h2>
+              </div>
+              <div class="status">
+                <p
+                  id="status-text"
+                  class="<%= branch.branch_status ? 'active' : 'inactive' %>"
+                >
+                  <%= branch.branch_status ? 'Active' : 'Inactive' %>
+                </p>
+              </div>
+            </div>
+
+            <div class="bottom-section">
+              <div>
+                <p class="branchCardText">
+                  <%= branch.loc_province %>, <%= branch.loc_city %>
+                </p>
+                <p class="branchCardText">
+                  <%= branch.loc_baranggay %>, <%= branch.loc_street_name %>
+                </p>
+                <p class="branchCardText">
+                  <%= branch.loc_building %> <%= branch.loc_house_number %>
+                </p>
+              </div>
+              <%- include('./components/todays_sales_on_branch.ejs', { branch,
+              todaysSales }); %>
+            </div>
+
+            <!-- Display today's sales for this branch -->
+          </div>
+          <% }); %>
+
+          <div style="height: 10rem"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-container"></div>
+  </body>
+</html>

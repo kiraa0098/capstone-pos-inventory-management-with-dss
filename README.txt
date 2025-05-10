@@ -1,0 +1,1 @@
+you need zadig driver for the printer and electron module also XPrinter Driver Setup V8.2

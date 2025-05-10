@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/style/general_styles.css" />
+  <link rel="stylesheet" href="/style/product_performance.css" />
+  <title>GNW | Product Performance</title>
+</head>
+<body>
+  <nav class="side-nav">
+    <%- include('./components/admin_main_navigation.ejs') %>
+  </nav>
+
+  <div class="left-container">
+    <div class="top-container">
+      <div>
+        <h1>Performance</h1>
+        <h3 style="color: gray;">
+          Product Report for <%= month || new Date().getMonth() + 1 %>/<%= year || new Date().getFullYear() %>
+        </h3>
+      </div>
+
+      
+      <!-- Form to filter by month, year, and branch -->
+      <form action="/admin/inventory/product-performance" method="GET" class="filter-section">
+          
+        <div class="search-container search-bar">
+          <div class="filter">
+            <img src="/assets/images/search-icon.png" alt="" style="width: 20px" />
+            <input type="text" placeholder="Search..." name="query" class="search-input" value="<%= searchQuery || '' %>">
+          </div>
+        </div>
+
+        <div class="filter category">
+          <label for="category">Category: </label>
+          <select id="categorySort" name="category" class="select-input">
+            <option value="all" <%= categoryFilter === '' ? 'selected' : '' %>>All</option>
+            <% categories.forEach(category => { %>
+              <option value="<%= category.product_category %>" <%= category.product_category === categoryFilter ? 'selected' : '' %>><%= category.product_category %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="filter month">
+          <label for="month">Month: </label>
+          <select id="month" name="month" class="select-input">
+            <% for (let i = 1; i <= 12; i++) { %>
+              <option value="<%= i %>" <%= i === (month || new Date().getMonth() + 1) ? 'selected' : '' %>><%= i %></option>
+            <% } %>
+          </select>
+        </div>
+
+        <div class="filter year">
+          <label for="year">Year: </label>
+          <select id="year" name="year" class="select-input">
+            <% years.forEach(y => { %>
+              <option value="<%= y %>" <%= y === (year || new Date().getFullYear()) ? 'selected' : '' %>><%= y %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <div class="filter branch">
+          <label for="branch">Branch: </label>
+          <select id="branch" name="branch" class="select-input">
+            <option value="">All Branches</option>
+            <% branches.forEach(branch => { %>
+              <option value="<%= branch.branch_name %>" <%= branch.branch_name === (branchFilter || '') ? 'selected' : '' %>><%= branch.branch_name %></option>
+            <% }); %>
+          </select>
+        </div>
+
+        <button class="transparent-button filter-button" type="submit">Filter</button>
+      </form>
+        
+    </div>
+
+    <%- include('./components/product_performance_table', { products: products }) %>
+  </div>
+
+  <div class="right-container">
+    <%- include('./components/inventory_management_nav.ejs') %>
+  </div>
+
+
+
+  </body>
+</html>

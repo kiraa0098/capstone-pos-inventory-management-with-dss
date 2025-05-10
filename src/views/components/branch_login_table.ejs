@@ -1,0 +1,71 @@
+<!-- Login History Table Component -->
+<div class="table-section">
+  <h3>Login History for <%= branch.branch_name %></h3>
+<div class="table-container">
+  
+  <table id="login-history-table">
+    <thead>
+      <tr>
+        <th>Login Date</th>
+        <th>Branch Name</th>
+        <th>Personnel Name</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="login-history-body">
+      <% if (loginHistory && loginHistory.length > 0) { %> <%
+      loginHistory.forEach((history) => { %>
+      <tr>
+        <td><%= new Date(history.login_date).toLocaleString() %></td>
+        <td><%= history.login_branch_name %></td>
+        <td><%= history.login_branch_personel_name %></td>
+        <td><%= history.Action %></td>
+      </tr>
+      <% }) %> <% } else { %>
+      <tr>
+        <td colspan="3">No login history available for this branch</td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+</div>
+
+<script>
+  // Create a WebSocket connection
+  const socket = new WebSocket("ws://localhost:3000"); // Update this with the WebSocket server URL
+
+  // Function to update the login history table when new data is received
+  socket.onmessage = function (event) {
+    const data = JSON.parse(event.data);
+    console.log("Received WebSocket message:", data); // Add this line for debugging
+
+    // Check if the message is about new login history
+    if (data.type === "newLoginHistory") {
+      const loginHistoryBody = document.getElementById("login-history-body");
+
+      // If "No login history" row exists, remove it
+      const noHistoryRow = loginHistoryBody.querySelector("tr td[colspan='3']");
+      if (noHistoryRow) {
+        noHistoryRow.parentElement.remove(); // Remove the "No login history" row
+      }
+
+      // Create a new row for the new login entry
+      const newRow = document.createElement("tr");
+      newRow.innerHTML = `
+        <td>${data.payload.loginDate}</td>
+        <td>${data.payload.branchName}</td>
+        <td>${data.payload.personnelName}</td>
+        <td>${data.payload.action}</td>
+      `;
+
+      // Prepend the new row to the table body
+      loginHistoryBody.prepend(newRow);
+    }
+  };
+
+  // Handle WebSocket errors (optional)
+  socket.onerror = function (error) {
+    console.error("WebSocket Error:", error);
+  };
+</script>

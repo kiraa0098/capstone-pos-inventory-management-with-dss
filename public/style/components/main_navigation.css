@@ -1,0 +1,152 @@
+* {
+  color: var(--text-color);
+}
+
+.alert-div {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #4caf50; /* Green */
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.alert-div.error {
+  background-color: #f44336; /* Red */
+}
+
+.side-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 4dvw;
+  background: var(--side-nav-color);
+  transition: width 0.2s ease-in-out;
+  z-index: 2;
+}
+
+.side-nav:hover {
+  width: 15vw;
+}
+
+/* Ensure the <p> elements transition smoothly */
+.side-nav li a p,
+.side-buttons p {
+  font-size: 1.2dvw;
+  padding-left: 2px;
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.5s ease; /* Add transition for opacity */
+}
+
+/* Change opacity of <p> elements when .side-nav is hovered */
+.side-nav:hover li a p,
+.side-nav:hover .side-buttons p {
+  opacity: 1;
+}
+
+.brand-logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.brand-logo img {
+  align-self: center;
+  width: 3dvw;
+}
+
+.side-buttons {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-family: var(--main-font);
+  background-color: transparent !important;
+  text-align: left !important;
+  transition: background-color 0.5s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  padding: 10px 1dvw;
+  border-style: none;
+  cursor: pointer;
+}
+
+.side-buttons::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--button-color-hover);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s ease-in-out;
+}
+
+.side-buttons:hover::before {
+  transform: scaleX(1);
+}
+
+.side-buttons span {
+  display: inline-block;
+  transition: transform 0.5s ease-in-out;
+  position: relative;
+  left: -100%;
+}
+
+.side-buttons:hover span {
+  left: 0;
+  transform: translateX(100%);
+}
+
+.side-buttons:hover {
+  background-color: transparent;
+}
+
+.side-nav .top-content ul {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem; /* Adjust the gap value as needed */
+  width: 100%;
+  padding-inline-start: 0;
+}
+
+.side-nav li {
+  display: flex;
+  list-style: none;
+  align-items: center;
+  height: 50px;
+}
+
+.side-nav li img,
+.side-buttons img {
+  width: 1.5dvw;
+}
+
+.side-nav li a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.side-nav li a p {
+  padding-left: 10px;
+}
+
+.bottom-content {
+  height: 60px;
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: 2dvh;
+}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/general_styles.css" />
+    <link rel="stylesheet" href="/style/admin.css" />
+    <link rel="stylesheet" href="/style/admin_archives.css" />
+    <script src="/script/admin_unarchive_product_modal.js" defer></script>
+    <script src="/script/admin_delete_product.js" defer></script>
+    <title>GNW | View archives</title>
+  </head>
+  <body>
+    <div class="alert-div" id="customAlertContainer"></div>
+
+    <div class="side-nav">
+      <%- include('./components/admin_main_navigation.ejs') %>
+    </div>
+
+    <div class="left-container">
+      <div class="top-container">
+        <div>
+          <h1>Archives</h1>
+        </div>
+        <!-- Search Bar -->
+        <div class="search-container">
+          <div class="search-bar">
+            <img
+              src="/assets/images/search-icon.png"
+              alt=""
+              style="width: 20px"
+            />
+            <input
+              type="text"
+              id="productSearchInput"
+              placeholder="Search Product..."
+              class="search-input"
+            />
+          </div>
+        </div>
+        <div class="filter-section">
+          <div class="filter">
+            <label for="branch">Branch: </label>
+            <select id="branch" name="branch" class="select-input">
+              <option value="">All Branches</option>
+              <% branches.forEach(branch => { %>
+              <option value="<%= branch.branch_name %>">
+                <%= branch.branch_name %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+
+          <div>
+            <button id="searchSortButton" class="transparent-button">
+              Apply Filters
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-container">
+        <div class="tableDiv">
+          <table class="table" id="ProductTable">
+            <thead>
+              <tr>
+                <th>Branch</th>
+                <th>Product</th>
+                <th>Brand</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Cost</th>
+                <th>Archived Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% archivedProducts.forEach(product => { %>
+              <tr>
+                <td data-label="Branch">
+                  <%= product.archive_product_branch_name %>
+                </td>
+                <td data-label="Product">
+                  <%= product.archive_product_name %>
+                </td>
+                <td data-label="Brand"><%= product.archive_product_brand %></td>
+                <td data-label="Stock"><%= product.archive_product_stock %></td>
+                <td data-label="Price"><%= product.archive_product_price %></td>
+                <td data-label="Cost"><%= product.archive_product_cost %></td>
+                <td data-label="Archived Date"><%= product.archived_date %></td>
+                <td data-label="Actions">
+                  <button id="unarchive-<%= product.archive_product_id %>">
+                    Restore
+                  </button>
+                  <button
+                    id="delete-<%= product.archive_product_id %>"
+                    class="delete"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              <% }) %>
+              <tr style="height: 10rem; border-bottom: none"></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="right-container">
+      <%- include('./components/inventory_management_nav.ejs') %>
+    </div>
+
+    <div id="unarchiveModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <h4>Restore Product</h4>
+        <p>Are you sure you want to Restore this product?</p>
+        <button id="confirmUnarchive" class="sliding-button">Yes</button>
+        <button id="cancelUnarchive" class="sliding-button">No</button>
+      </div>
+    </div>
+    <div id="deleteModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <h4>Fully Delete Product</h4>
+        <p>Are you sure you want to delete this product?</p>
+        <button id="confirmDelete" class="sliding-button">Yes</button>
+        <button id="cancelDelete" class="sliding-button">No</button>
+      </div>
+    </div>
+    <script>
+      // Function to search and filter products
+      function applyFilters() {
+        var searchInput = document
+          .getElementById("productSearchInput")
+          .value.toLowerCase();
+        var selectedBranch = document
+          .getElementById("branch")
+          .value.toLowerCase();
+        var table = document.getElementById("ProductTable");
+        var tr = table.getElementsByTagName("tr");
+
+        for (var i = 1; i < tr.length; i++) {
+          var productCell = tr[i].getElementsByTagName("td")[1]; // Product column
+          var productText = productCell
+            ? productCell.textContent || productCell.innerText
+            : "";
+
+          var branchCell = tr[i].getElementsByTagName("td")[0]; // Branch column
+          var branchText = branchCell
+            ? branchCell.textContent || branchCell.innerText
+            : "";
+
+          // Normalize values by trimming any extra whitespace
+          branchText = branchText.trim().toLowerCase();
+          productText = productText.trim().toLowerCase();
+
+          // Apply both search and branch filter conditions
+          if (
+            (productText.indexOf(searchInput) > -1 || searchInput === "") && // Matches search input or no input
+            (branchText === selectedBranch || selectedBranch === "") // Matches selected branch or "All Branches"
+          ) {
+            tr[i].style.display = ""; // Show row
+          } else {
+            tr[i].style.display = "none"; // Hide row
+          }
+        }
+      }
+
+      // Add event listener to the button to trigger the combined filter function
+      document
+        .getElementById("searchSortButton")
+        .addEventListener("click", applyFilters);
+    </script>
+  </body>
+</html>

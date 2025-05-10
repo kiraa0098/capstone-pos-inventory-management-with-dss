@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style/login.css" />
+    <link rel="stylesheet" href="/variables.css" />
+    <script src="/script/setup_admin.js" defer></script>
+    <script src="/script/admin_login_modal.js" defer></script>
+    <script src="/script/login_branch.js" defer></script>
+    <title>GNW | Log in</title>
+  </head>
+  <body>
+    <div id="admin-custom-alert" class="alert hidden"></div>
+    <div class="container">
+      <% if (adminExists) { %>
+
+      <div id="login-section" class="section">
+        <h2>Login Branch</h2>
+        <div id="err-select-branch"></div>
+        <select id="branch_name">
+          <option value="" disabled selected>--Select Branch</option>
+          <% branches.forEach(branch => { %>
+          <option value="<%= branch.branch_name %>">
+            <%= branch.branch_name %>
+          </option>
+          <% }) %>
+        </select>
+
+        <div id="err-input-branch"></div>
+        <div class="password-container">
+          <input type="password" id="branch_key" placeholder="Branch Key" />
+          <img
+            src="/assets/images/eye-close.png"
+            id="eyeIcon"
+            class="eyeIcon"
+          />
+        </div>
+        <button class="button-primary" id="login-button">Login</button>
+        <button id="admin-login-modal-button" class="admin-login-modal-button">
+          Log in as <span>admin</span>.
+        </button>
+      </div>
+
+      <% } else { %>
+
+      <div id="welcome-section" class="section">
+        <h1>Welcome</h1>
+        <p>Let's set up your Admin profile.</p>
+        <p>This will take a couple of minutes to complete.</p>
+        <button id="start-button" class="button-primary">Start</button>
+      </div>
+
+      <div id="email-registration-section" class="section hidden">
+        <h2>Registration</h2>
+        <label for="email">Your email address</label>
+        <div id="err-email" class="reg-error-email-alert"></div>
+        <input type="email" name="email" id="email" required />
+        <p>
+          Your email is kept strictly confidential. We will use your personal
+          email for more personalized support.
+        </p>
+        <button id="send-code-button" class="button-primary send-code-button">
+          Send code
+        </button>
+      </div>
+
+      <div id="email-verification-section" class="section hidden">
+        <h2 for="verification-code">Verification code</h2>
+        <div id="err-code"></div>
+        <input
+          type="number"
+          id="verification-code"
+          class="ver-code-input"
+          style="text-align: center; font-size: large"
+          pattern="\d{6}"
+          maxlength="6"
+          placeholder="Enter 6-digit code"
+          required
+          autocomplete="off"
+        />
+        <p style="margin-top: 0px">
+          We sent a code to
+          <span
+            id="email-to-receive-code"
+            style="color: var(--alert-text-color)"
+          ></span>
+          .
+        </p>
+        <button id="verify-code-button" class="button-primary">
+          Verify code
+        </button>
+        <br />
+        <br />
+        <button class="update-email-button">
+          Do you want to <span>Update</span> your email?
+        </button>
+      </div>
+
+      <div id="personal-information-section" class="section hidden">
+        <h1>Let's set your personal account</h1>
+        <h3>
+          Please enter your name and login credentials used for admin access.
+        </h3>
+        <div class="error-message" id="err-firstname"></div>
+        <label for="first-name">First name</label>
+        <input type="text" id="first-name" required />
+        <div class="error-message" id="err-lastname"></div>
+        <label for="last-name">Last name</label>
+        <input type="text" id="last-name" required />
+        <div class="error-message" id="err-password"></div>
+        <label for="password">Password</label>
+        <div class="password-container">
+          <input type="password" id="password" required />
+          <img
+            src="/assets/images/eye-close.png"
+            id="password-eyeIcon"
+            class="eyeIcon"
+            alt="Toggle password visibility"
+          />
+        </div>
+
+        <div class="error-message" id="err-confirm-password"></div>
+        <label for="confirm-password">Confirm password</label>
+        <div class="password-container">
+          <input type="password" id="confirm-password" required />
+          <img
+            src="/assets/images/eye-close.png"
+            id="confirm-password-eyeIcon"
+            class="eyeIcon"
+            alt="Toggle confirm password visibility"
+          />
+        </div>
+
+        <button id="setup-admin-button" class="button-primary">
+          Set up Admin
+        </button>
+        <br />
+        <button class="update-email-button">
+          Do you want to <span>Update</span> your email?
+        </button>
+      </div>
+
+      <% } %>
+    </div>
+
+    <div id="adminLoginModal" class="modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Admin Login</h2>
+        <div id="error-admin-email" class="error-message"></div>
+        <input type="email" id="login-admin-email-input" placeholder="Email" />
+        <div id="error-admin-password" class="error-message"></div>
+        <div class="password-container">
+          <input
+            type="password"
+            id="login-admin-password-input"
+            placeholder="Password"
+          />
+          <img
+            src="/assets/images/eye-close.png"
+            id="adminEyeIcon"
+            class="eyeIcon"
+          />
+        </div>
+        <button id="login-admin-button" class="button-primary">Login</button>
+        <a href="/admin/forgot-password" class="forgot-password"
+          >forgot password</a
+        >
+      </div>
+    </div>
+
+    <script>
+      // Password visibility toggle for branch login
+      let eyeicon = document.getElementById("eyeIcon");
+      let branch_key = document.getElementById("branch_key");
+
+      eyeicon.onclick = function () {
+        if (branch_key.type === "password") {
+          branch_key.type = "text";
+          eyeicon.src = "/assets/images/eye-open.png";
+        } else {
+          branch_key.type = "password";
+          eyeicon.src = "/assets/images/eye-close.png";
+        }
+      };
+
+      // Password visibility toggle for admin login modal
+      let adminEyeIcon = document.getElementById("adminEyeIcon");
+      let adminPassword = document.getElementById("login-admin-password-input");
+
+      adminEyeIcon.onclick = function () {
+        if (adminPassword.type === "password") {
+          adminPassword.type = "text";
+          adminEyeIcon.src = "/assets/images/eye-open.png";
+        } else {
+          adminPassword.type = "password";
+          adminEyeIcon.src = "/assets/images/eye-close.png";
+        }
+      };
+
+      // Password visibility toggle for sign-up section
+    </script>
+  </body>
+</html>

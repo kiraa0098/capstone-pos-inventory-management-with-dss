@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="/script/admin_forgot_branch_key.js" defer></script>
+    <link rel="stylesheet" href="/style/admin_forgot_branch_key.css" />
+    <title>GNW | Forgot branch key</title>
+  </head>
+  <body>
+    <div id="custom-alert"></div>
+
+    <div class="container" id="phase-1">
+      <% adminInfo.forEach(function(admin) { %>
+      <label for="">Is this your Email? "<%= admin.admin_email %>"</label>
+      <% }); %>
+      <div class="button-container">
+        <button class="confirm-btns" id="send-code-btn">
+          Yes, lets reset the branch key!</button
+        ><br />
+        <button
+          class="cancelButton"
+          onclick="window.location.href='/admin/branch/'"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- 2ND PHASE -->
+    <div class="container" id="phase-2" style="display: none">
+      <% adminInfo.forEach(function(admin) { %>
+      <label for="verification-code-input">
+        We've sent a 6-digit verification code to your email
+        <span>"<%= admin.admin_email %>"</span>
+      </label>
+      <% }); %>
+      <div id="err-code" class="err-div"></div>
+      <input
+        type="text"
+        id="verification-code-input"
+        placeholder="Enter verification code"
+      />
+      <div class="button-container">
+        <button class="confirm-btns" id="confirm-code-btn">Confirm</button
+        ><button class="cancelButton">
+          <a style="" href="/admin/branch/">Cancel</a>
+        </button>
+      </div>
+    </div>
+    <!-- END OF 2ND PHASE -->
+
+    <!-- 3RD PHASE -->
+    <div class="container" id="phase-3" style="display: none">
+      <label for="verification-code-input">
+        You can now set up your new Branch key.
+      </label>
+      <div id="err-new-branch-key" class="err-div"></div>
+      <div class="password-container">
+        <input type="password" id="new-input" placeholder="New Branch Key" />
+        <img
+          src="/assets/images/eye-close.png"
+          id="new-input-eyeIcon"
+          class="eyeIcon"
+        />
+      </div>
+      <div id="err-confirm-new-branch-key" class="err-div"></div>
+      <div class="password-container">
+        <input
+          type="password"
+          id="confirm-new-input"
+          placeholder="Confirm New Branch Key"
+        />
+        <img
+          src="/assets/images/eye-close.png"
+          id="confirm-new-input-eyeIcon"
+          class="eyeIcon"
+          style="margin-left: 10px"
+        />
+      </div>
+      <div class="button-container">
+        <button class="confirm-btns" id="final-btn">Submit</button
+        ><button class="cancelButton">
+          <a href="/admin/branch/">Cancel</a>
+        </button>
+      </div>
+    </div>
+
+    <!-- END OF 3RD PHASE -->
+  </body>
+</html>

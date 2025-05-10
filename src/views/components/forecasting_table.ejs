@@ -1,0 +1,26 @@
+<div class="bottom-container">
+  <div class="table-container">
+    <table id="productTable">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Branch Name</th>
+          <th>Current Stock</th>
+          <th>Recommended Stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% recommendationList.sort((a, b) => b.recommendedStock -
+        a.recommendedStock).forEach(function(recommendation) { %>
+        <tr>
+          <td><%= recommendation.productName %></td>
+          <td><%= recommendation.branchName %></td>
+          <td><%= recommendation.currentStock %></td>
+          <td><%= recommendation.recommendedStock %></td>
+        </tr>
+        <% }) %>
+        <tr style="height: 10rem"></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

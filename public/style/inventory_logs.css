@@ -1,0 +1,165 @@
+h1 {
+  border-bottom: var(--orange) 3px solid;
+  margin: 0% auto;
+  text-wrap: nowrap;
+}
+select {
+  text-align: center;
+}
+option {
+  text-align: center;
+}
+
+.search-container {
+  width: 50%;
+}
+
+/* Inline CSS if you don't want to modify the external file */
+
+.tableDiv {
+  display: flex;
+  align-items: flex-start;
+}
+
+.table {
+  width: 100%; /* Table now takes up full width of its container */
+  border-collapse: collapse;
+  margin: 0; /* Center alignment might not work well on smaller screens */
+  font-size: 14px;
+  text-align: left;
+  background-color: transparent;
+  overflow-y: hidden;
+}
+
+.table td.product-name {
+  width: 100%; /* Adjust the width as needed */
+}
+
+.table thead tr {
+  background-color: #1f242d;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #1f242d; /* Ensures the header background stays consistent */
+  z-index: 1; /* Ensures the header stays above the table content when scrolling */
+  padding: 12px 15px;
+  font-size: 15px;
+}
+
+/* Product name */
+.table thead th:nth-child(1),
+.table td:nth-child(1) {
+  min-width: 5dvw;
+  max-width: 7dvw;
+  text-align: left;
+  padding-left: 0.5rem;
+}
+
+.table tbody td:nth-child(1) {
+  border-bottom: none;
+}
+
+/* Product Brand */
+.table thead th:nth-child(2),
+.table td:nth-child(2) {
+  text-align: center;
+  width: 10%;
+}
+
+/* Product Branch */
+.table thead th:nth-child(3),
+.table td:nth-child(3) {
+  text-align: center;
+  width: 5%;
+}
+
+/* Product Created At */
+.table thead th:nth-child(4),
+.table td:nth-child(4) {
+  text-align: center;
+  width: 20%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Product Actions */
+.table thead th:nth-child(5),
+.table td:nth-child(5) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  width: 10%;
+}
+
+/* Product Cost */
+.table thead th:nth-child(6),
+.table td:nth-child(6) {
+  text-align: center;
+  width: 10%;
+}
+
+/* Product Price */
+.table thead th:nth-child(7){
+  padding: 12px 0px;
+}
+.table thead th:nth-child(7),
+.table td:nth-child(7) {
+  text-align: left;
+  width: 5%;
+}
+
+/* Product Stock */
+.table thead th:nth-child(8),
+.table td:nth-child(8) {
+  text-align: center;
+  width: 5%;
+  padding: 12px 15px;
+}
+
+/* Product Added */
+
+.table thead th:nth-child(9),
+.table tbody td:nth-child(9) {
+  text-align: center;
+  border-bottom: none;
+}
+
+.table td {
+  padding: 5px;
+
+  font-size: 13px;
+}
+
+.table tbody tr {
+  border-bottom: 2.5px solid #3a3f51;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.table tbody tr:last-of-type {
+  border-bottom: 2px solid #3a3f51;
+}
+
+.table tbody tr:hover {
+  background-color: var(--hvr-row);
+}
+
+/* Style for "Created At" header with arrow */
+[data-label="Created At"]::after {
+  content: " ▼"; /* Unicode character for a downward triangle */
+  color: #00ff00; /* Green color for the arrow */
+  font-weight: bold;
+  margin-left: 0.3rem; /* Spacing between text and arrow */
+  font-size: 0.8em; /* Slightly smaller arrow size */
+}
+
+/* Optional: Adjust overall text styling for the cell */
+[data-label="Created At"] {
+  color: inherit; /* Keeps the same text color */
+}
+

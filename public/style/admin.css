@@ -1,0 +1,394 @@
+@import url(/variables.css);
+/*******************************************************/
+/**                 used in javascript        **********/
+/**         pwede mo palitan mga properties   **********/
+/**   yung mga class/id name lang yung important  ******/
+/*******************************************************/
+
+/*******************************************************/
+
+* ::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  font-family: var(--main-font);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 85% 15%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/assets/images/GNW_logo.png");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.04;
+  z-index: -1;
+}
+
+/* #region MODAL */
+
+/* Modal General Styles */
+.modal {
+}
+
+/* Modal Content */
+
+.modal input {
+  background: rgba(32, 31, 36, 0.7);
+  color: --var(--text-color);
+}
+
+/* Close Button */
+.closeModalButton,
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.closeModalButton:hover,
+.closeModalButton:focus,
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Form Styles */
+.modal-content label {
+  display: block;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="number"] {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-style: none;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background: #2f2844;
+}
+
+.alert-div {
+  position: absolute;
+  color: var(--alert-text-color);
+  z-index: 10;
+}
+
+/* Custom Alert Styles */
+#customAlertContainer {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 99;
+  width: 180px;
+  color: var(--text-color);
+}
+
+.custom-alert {
+  background-color: #f44336; /* Default red background, can change dynamically */
+  color: rgb(44, 43, 43);
+  padding: 16px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.custom-alert.success {
+  background-color: #45ac48; /* Green background for success alerts */
+}
+
+.custom-alert.error {
+  background-color: #f44336; /* Red background for error alerts */
+}
+
+.custom-alert.fade-in {
+  opacity: 1;
+}
+
+.custom-alert.fade-out {
+  opacity: 0;
+}
+
+#addProductButton:disabled {
+  opacity: 0.5; /* Reduce opacity when disabled */
+  cursor: not-allowed; /* Change cursor to indicate disabled state */
+}
+
+#saveChangesButton:disabled {
+  background-color: #cccccc;
+  color: #888888;
+  cursor: not-allowed;
+}
+
+.table-container {
+  display: flex;
+  align-items: flex-start;
+}
+
+.color-indicator {
+  width: 10px; /* Adjust the size as needed */
+  height: 10px; /* Same as width to keep it circular */
+  background-color: #f96e66; /* Example color */
+  border-radius: 50%; /* Ensures it is a circle */
+  display: inline-block; /* Keeps it next to the text */
+  margin-right: 10px; /* Space between circle and text */
+  flex-shrink: 0; /* Prevents the circle from shrinking */
+  z-index: 1;
+}
+
+.color-indicator.red {
+  background-color: var(--red);
+}
+
+.color-indicator.orange {
+  background-color: var(--orange);
+}
+
+.color-indicator.green {
+  background-color: var(--green);
+}
+
+/* #endregion */
+
+/* #region BUTTONS */
+button {
+  padding: 10px 20px;
+  color: var(--text-color);
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: background-color 1s ease 0ms;
+}
+
+/* #endregion*/
+
+/* #region CONTAINERS */
+
+.left-container {
+  z-index: 0;
+  height: 100vh;
+  margin-left: 4dvw;
+  outline: 2px solid #1f242d; /* Adds a 2px white outline */
+}
+
+.right-container {
+  display: grid;
+  grid-auto-flow: row;
+  grid-template-rows: 10dvh 90dvh;
+  height: 80dvh;
+  margin-bottom: 5dvh;
+}
+
+.branchCardText {
+  font-size: 14px;
+  margin: 0px;
+}
+
+.bottom-container {
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0%;
+  border: solid 1px #1f242d;
+  overflow-y: scroll;
+}
+/* #endregion*/
+
+/* #region BRANCHES */
+.branches {
+  display: grid;
+  gap: 10px;
+}
+
+.branch-cards {
+  background-color: rgba(37, 38, 64, 0.7);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+  min-height: fit-content;
+  outline: 1px solid #1f242d;
+  transition: outline 500ms ease 0s;
+  transition: background-color 0.5s ease 0s;
+  margin: 0% 1rem;
+}
+
+.branch-cards:nth-child(1) {
+  margin-top: 1rem;
+}
+
+.branch-cards:hover {
+  background-color: rgba(37, 38, 64, 1);
+  outline: 1.5px solid #1f242d;
+}
+
+.branch-cards h2 {
+  font-family: var(--main-font);
+}
+
+#add-branch-button {
+  background-color: var(--green);
+  scale: (1);
+  transition: transform 0.5s ease-in-out 0s;
+}
+#add-branch-button:hover {
+  background-color: var(--hvr-green);
+  transform: scale(00.9);
+}
+
+/* #endregion*/
+
+/* #region INVENTORY */
+
+/* #endregion */
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+/* Container for the product name */
+.product-name {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.product-name .marquee {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis !important;
+  display: block;
+  max-width: 100%; /* Ensure it does not exceed the container width */
+  transition: all 0.3s ease;
+}
+
+/* Marquee effect on hover, only when .overflowing class is present */
+.product-name.overflowing .marquee:hover {
+  overflow: visible;
+  animation: marquee 10s linear infinite;
+}
+
+/* Marquee keyframes */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/*#region ADD PRODUCT MODAL */
+
+#branchesPrompt {
+  color: var(--alert-text-color);
+}
+
+.branch-selection-container {
+  position: relative;
+  width: fit-content; /* Adjust to the desired width */
+}
+
+.branch-selection-header {
+  cursor: pointer;
+  background-color: transparent; /* Example background color */
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Space between text and image */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.branch-selection-header img {
+  width: 16px; /* Adjust the size of the image */
+  height: 16px; /* Keep the image square */
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.branch-selection-header:hover {
+  background-color: transparent; /* Change background on hover */
+  color: #c7fbfc; /* Change text color on hover */
+}
+
+.branch-selection-header:hover img {
+  filter: brightness(1.5); /* Brighten the image on hover */
+  transform: rotate(180deg); /* Example: Rotate the arrow on hover */
+}
+
+.branch-selection {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  background-color: transparent; /* Example background color */
+  padding: 0 10px;
+  border-radius: 5px;
+  /* Added padding to ensure the branches don't touch the edges */
+}
+
+.branch-selection-container:hover .branch-selection {
+  max-height: 100vh; /* Set a very high max-height to allow expansion */
+  overflow-y: auto; /* Enable scroll if content exceeds viewport height */
+}
+
+.branch-options {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 5px 0;
+  justify-content: space-between;
+}
+
+.branch-options label {
+  margin: 0;
+  color: #c7fbfc; /* Text color */
+}
+
+.branch-options input {
+  margin-left: auto;
+  transform: scale(1.2); /* Optional: Increase checkbox size */
+}
+
+.branch-selection::-webkit-scrollbar {
+  width: 6px;
+}
+
+.branch-selection::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 10px;
+}
+
+.branch-selection::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/*#endregion */
+
+/* #endregion */

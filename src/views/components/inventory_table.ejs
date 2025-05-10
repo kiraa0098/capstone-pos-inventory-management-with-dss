@@ -1,0 +1,125 @@
+<!-- views/components/productTable.ejs -->
+<div class="bottom-container">
+  <div class="table-container">
+    <table id="productTable">
+      <thead>
+        <tr class="column-names">
+          <th>Product Name</th>
+          <th>Brand</th>
+          <th>Branch</th>
+          <th>Category</th>
+          <th>Supplier</th>
+          <th>Cost</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="productTableBody">
+        <% if (products && products.length) { %> <% products.forEach(product =>
+        { %>
+        <tr
+          data-product-id="<%= product.product_id %>"
+          data-product-category-id="<%= product.product_category_id %>"
+        >
+          <td>
+            <div class="product-name">
+              <div class="color-indicator"></div>
+              <div class="marquee" title="<%= product.product_name %>">
+                <%= product.product_name %>
+              </div>
+            </div>
+          </td>
+          <td><%= product.product_brand %></td>
+          <td><%= product.product_branch_name %></td>
+          <td><%= product.product_category %></td>
+          <td><%= product.supplier_name %></td>
+          <td><%= product.product_cost.toFixed(2) %></td>
+          <td><%= product.product_price.toFixed(2) %></td>
+          <td><%= product.product_stock %></td>
+          <td>
+            <div class="action-button-container">
+              <button
+                class="action-buttons edit-button"
+                data-product-id="<%= product.product_id %>"
+                title="EDIT DETAILS"
+              >
+                <img src="/assets/images/edit-icon.png" alt="Edit" />
+              </button>
+              <button
+                class="action-buttons archive-button"
+                data-product-id="<%= product.product_id %>"
+                title="ARCHIVE"
+              >
+                <img src="/assets/images/archive-icon.png" alt="Archive" />
+              </button>
+              <button
+                class="action-buttons restock-button"
+                data-product-id="<%= product.product_id %>"
+                title="EDIT STOCK"
+              >
+                <img src="/assets/images/restock-icon.png" alt="Stock" />
+              </button>
+            </div>
+          </td>
+        </tr>
+        <% }); %> <% } else { %>
+        <tr>
+          <td colspan="8">No products found</td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // Establish WebSocket connection
+  const socket = new WebSocket("ws://localhost:3000"); // Adjust the URL if needed
+
+  socket.onopen = () => {
+    // Connection established
+  };
+
+  socket.onerror = (error) => {
+    // Handle error
+  };
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.type === "updateStock") {
+      // Update product stocks based on sold products
+      updateProductStocks(data.payload.soldProducts);
+    }
+  };
+
+  const updateProductStocks = (soldProducts) => {
+    soldProducts.forEach((product) => {
+      const productId = product.product_id; // Get the product ID
+      const quantitySold = product.sold_product_quantity; // Use the correct property name for quantity sold
+
+      // Check for valid quantity sold
+      if (typeof quantitySold !== "number" || isNaN(quantitySold)) {
+        return; // Skip this product if quantity sold is not valid
+      }
+
+      const tableBody = document.getElementById("productTableBody");
+      const productRow = tableBody.querySelector(
+        `tr[data-product-id="${productId}"]`
+      );
+
+      if (productRow) {
+        const stockCell = productRow.querySelector("td:nth-child(7)"); // Assuming stock is the 7th column
+        const currentStockText = stockCell.textContent.trim(); // Trim whitespace
+        const currentStock = Number(currentStockText); // Convert to number
+
+        const updatedStock = currentStock - quantitySold; // Subtract sold quantity
+
+        if (!isNaN(updatedStock) && updatedStock >= 0) {
+          stockCell.textContent = updatedStock; // Update the stock cell
+        }
+      }
+    });
+  };
+</script>

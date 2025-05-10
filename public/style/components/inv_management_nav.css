@@ -1,0 +1,48 @@
+.link-menu {
+  padding-top: 5dvw;
+  width: 100%;
+}
+
+.link-menu ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0%; /* Adjust the gap value as needed */
+  width: 100%;
+  padding-inline-start: 0;
+}
+h2 {
+  margin: 0px 0px 20px 20px;
+}
+.link-menu ul li {
+  list-style: none;
+  align-items: center;
+  width: 100%;
+  transition: background-color 0.5s ease;
+  box-shadow: 2px 0 0 0 #1f242d,
+    /* Right, bottom, and top shadow */ 0 2px 0 0 #1f242d,
+    /* Bottom shadow */ 0 -2px 0 0 #1f242d; /* Top shadow */
+  padding: 10px; /* Optional: Add some padding inside the li */
+}
+
+.link-menu ul li:hover {
+  background-color: #2d81c6;
+  cursor: pointer;
+}
+
+.link-menu ul li.selected {
+  background-color: #1b4f72; /* Color when selected */
+}
+
+.link-menu a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--text-color);
+  font-size: 1dvw;
+  padding: 4px 4px;
+}
+
+.link-menu a:hover {
+  color: #edeff1;
+  transition: color 1s ease;
+}

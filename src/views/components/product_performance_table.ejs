@@ -1,0 +1,107 @@
+<head>
+  <style>
+    .active {
+      color: green;
+    }
+    .inactive {
+      color: red;
+    }
+
+    .archived {
+      color: var(--orange);
+    }
+  </style>
+</head>
+
+<div class="bottom-container">
+  <!-- Display the table -->
+  <div class="table-container">
+    <table id="productTable">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Brand Name</th>
+          <th>Branch Name</th>
+          <th>Category</th>
+          <th>Revenue Generated</th>
+          <th>Units Sold</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="productTableBody">
+        <!-- Sort products by units_sold in descending order in EJS -->
+        <% products.sort((a, b) => b.units_sold - a.units_sold); %> <%
+        products.forEach(product => { %>
+        <tr data-product-id="<%= product.id %>">
+          <!-- Add product ID as a data attribute -->
+          <td><%= product.product_name %></td>
+          <td><%= product.product_brand %></td>
+          <td><%= product.branch_name %></td>
+          <td><%= product.product_category %></td>
+          <td><%= product.revenue_generated %></td>
+          <td><%= product.units_sold %></td>
+          <td class="<%= product.status ? 'active' : 'inactive' %>">
+            <%= product.status %>
+          </td>
+        </tr>
+        <% }); %>
+        <tr style="height: 10rem"></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  // Establish WebSocket connection
+  const socket = new WebSocket("ws://localhost:3000"); // Adjust the URL if needed
+
+  socket.onopen = () => {
+    console.log("WebSocket connection established.");
+  };
+
+  socket.onerror = (error) => {
+    console.error("WebSocket error:", error);
+  };
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.type === "updateMonthlyRevenueAndUnits") {
+      // Update product stocks based on sold products
+      updateRevenueGeneratedAndUnitsSold(data.payload.productsWithRevenue);
+    }
+  };
+
+  const updateRevenueGeneratedAndUnitsSold = (productsWithRevenue) => {
+    productsWithRevenue.forEach((product) => {
+      const productId = product.id; // Use the correct product ID from the payload
+      const revenue_generated = product.revenue_generated;
+      const units_sold = product.units_sold;
+
+      // Skip this product if revenue or units sold are not valid numbers
+      if (
+        typeof revenue_generated !== "number" ||
+        isNaN(revenue_generated) ||
+        typeof units_sold !== "number" ||
+        isNaN(units_sold)
+      ) {
+        return;
+      }
+
+      const tableBody = document.getElementById("productTableBody");
+      const productRow = tableBody.querySelector(
+        `tr[data-product-id="${productId}"]`
+      );
+
+      if (productRow) {
+        const revenueGeneratedCell =
+          productRow.querySelector("td:nth-child(5)");
+        const unitSoldCell = productRow.querySelector("td:nth-child(6)");
+
+        // Update the revenue and units sold in the table
+        revenueGeneratedCell.textContent = revenue_generated;
+        unitSoldCell.textContent = units_sold;
+      }
+    });
+  };
+</script>
