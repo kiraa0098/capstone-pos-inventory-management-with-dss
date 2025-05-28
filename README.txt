@@ -14,4 +14,4 @@ Printable receipt generation
 
 Comprehensive sales and inventory statistics
 
-Built with scalability and real-world retail operations in mind
+Built with real-world retail operations in mind
