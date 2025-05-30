@@ -1,17 +1,17 @@
-#You need zadig driver and XPrinter Driver Setup V8.2 for the printer also Electron module
+# You need zadig driver and XPrinter Driver Setup V8.2 for the printer also Electron module
 
-#This repository contains a full-featured POS and inventory management system designed for GNW Shop in the Philippines as part of a capstone project. It includes:
+# This repository contains a full-featured POS and inventory management system designed for GNW Shop in the Philippines as part of a capstone project. It includes:
 
-#Branch-based POS operations
+# Branch-based POS operations
 
-#Inventory and product management per branch
+# Inventory and product management per branch
 
-#Supplier management module
+# Supplier management module
 
-#Decision Support System (DSS) for stock forecasting
+# Decision Support System (DSS) for stock forecasting
 
-#Printable receipt generation
+# Printable receipt generation
 
-#Comprehensive sales and inventory statistics
+# Comprehensive sales and inventory statistics
 
-#Built with real-world retail operations in mind
+# Built with real-world retail operations in mind
