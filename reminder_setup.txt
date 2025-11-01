@@ -1,2 +1,1 @@
-wait 
-# Built with real-world retail operations in mind
+# You need zadig driver and XPrinter Driver Setup V8.2 for the printer also Electron module
