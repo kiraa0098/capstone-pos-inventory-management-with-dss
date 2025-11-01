@@ -1,81 +1,78 @@
-# 🌟 Capstone POS: GNW's Point-of-Sale & Inventory Management System 🌟
+# 🌟 GNW's POS & Inventory System (My Capstone Project) 🌟
 
 <p align="center">
   <img src="public/assets/images/GNW_logo_brighter.png" alt="GNW Logo" width="200"/>
 </p>
 
-Welcome to the repository for the **GNW Shop Point-of-Sale**, a comprehensive desktop application developed as a capstone project. Built with **Electron** and **Node.js**, this system provides a powerful suite of tools for multi-branch retail management, from real-time inventory tracking to intelligent stock forecasting.
+Hey there! Welcome to the repo for my capstone project: a Point-of-Sale and Inventory Management system I built for a local shop called GNW. It's a desktop app made with Electron and Node.js, designed to help a business with multiple branches run things smoothly.
 
 ---
 
-### **⚠️ Portfolio & Demonstration Notice**
+### **⚠️ A Quick Heads-Up**
 
-**This project is intended for portfolio and demonstration purposes.** The application is runnable, but it **cannot fully function** as the original **Supabase** backend (database and services) is no longer active. This means you cannot log in or access data-dependent features without setting up a new Supabase project and configuring the application to connect to it. However, the codebase represents a complete and functional system, showcasing a wide range of software engineering skills and sophisticated features.
+This project is here to show what I can build. The app itself runs, but you won't be able to log in or use most of its features right away. That's because the database we were using (a free one on Supabase) is no longer active.
 
----
-
-## ✨ Core Features: A Detailed Look
-
-### 👨‍💼 Admin Central Command
-
-The heart of the system is the admin panel, a powerful command center offering deep, centralized control over the entire retail operation.
-
-- **📊 At-a-Glance Dashboard:** The application opens to a dynamic dashboard providing a real-time overview of the business. It features live updates on sales across all branches, a log of recent branch logins, and critical notifications, such as low-stock alerts, powered by WebSocket for instant data synchronization.
-
-- **🏪 Multi-Branch Management:** Seamlessly add, monitor, and manage multiple store branches. Each new branch is assigned a unique, system-generated branch key for secure POS login. The admin can view branch details, update information (like address or contact), and enable or disable branch activity, providing full control over the network.
-
-- **📦 Advanced Inventory Control:** This is a complete inventory management suite. Admins can perform full CRUD (Create, Read, Update, Delete) operations on products, manage categories, and handle stock levels. 
-    - **Restocking:** Easily increment stock counts for products.
-    - **Archiving:** Deactivate products without permanently deleting them, preserving historical data.
-    - **Unarchiving:** Restore previously archived products back to active status.
-
-- **🚚 Supplier Database:** Maintain a comprehensive directory of suppliers. For each supplier, the system stores crucial information, including company name, contact person, and contact details, centralizing procurement information for easier management.
-
-- **📈 Sales & Analytics:** Dive deep into your business performance with a robust reporting module. Generate detailed reports on overall sales, individual product performance, and revenue generated across specific timeframes. This data-driven insight is crucial for strategic decision-making.
-
-- **🧾 Full Log Monitoring:** Enhance security and accountability with comprehensive logging. The system meticulously tracks and displays inventory adjustments (restocks, deletions), sales transactions, and a full history of branch login attempts, providing a clear audit trail.
-
-### 🏢 Branch-Level POS
-
-A streamlined and intuitive interface designed for efficiency, allowing branch staff to handle daily operations with ease.
-
-- **🔐 Secure Branch Login:** Each branch uses its unique, admin-provided credentials to access the POS system, ensuring that sales and inventory data are correctly attributed to the specific location.
-
-- **🛒 Efficient Order Processing:** The POS interface is optimized for speed. Staff can quickly search the inventory for products, add items to a customer's cart, process sales, and handle refunds. The system automatically calculates totals and updates inventory levels in real-time.
-
-- **🧾 Custom Receipt Printing:** Upon completing a transaction, the system generates a detailed receipt and sends it directly to a connected thermal printer using the `escpos` library. This allows for professional, physical receipts for customers without any extra steps.
+To get it fully working again, you'd need to set up a new Supabase project and plug the new credentials into the app. But the code itself is all here and shows how everything was built.
 
 ---
 
-## 🚀 Key Functionalities: A Technical Deep Dive
+## ✨ So, What Does It Do?
 
-### Decision Support System (DSS) for Stock Forecasting
+I built this with two main users in mind: the central admin/owner and the staff at each branch.
 
-This isn't just a standard POS. The system includes a custom-built Decision Support System that provides intelligent, data-driven stock forecasts.
+### 👨‍💼 For the Admin (The Main Hub)
 
-- **💡 Predictive Analytics:** It forecasts future product demand using a **Simple Moving Average (SMA)** algorithm. By analyzing sales data from the previous 30 days, it helps management make proactive stocking decisions and prevent stockouts.
-- **🤖 Automated Calculation:** The process is handled by a powerful combination of a **Python script** (`sma_forecast.py`) for the core calculation and a **Node.js controller** (`getForecast.js`) that manages the data flow, demonstrating polyglot programming skills.
-- **📉 Optimized Stock Levels:** This feature empowers management to move from reactive to predictive inventory control, minimizing both overstock and stockout scenarios to directly impact profitability.
+This is the command center for the whole operation. From here, the admin can:
 
-### Real-Time Data Sync with WebSockets
+- **See a Live Dashboard:** The first thing you see is a dashboard that gives you a live look at sales and logins across all branches. I used WebSockets for this, so there's no need to refresh the page to see new activity.
 
-The application uses **WebSockets** to ensure data is synchronized across all connected clients in real-time, making the admin dashboard a true central command center.
+- **Manage All the Branches:** You can add new store locations, keep an eye on them, and even turn them "on" or "off." Each store gets its own secret key to log in, which the admin manages.
 
-- **⚡ Instant Notifications:** Sales, inventory changes, and login activities are instantly pushed from the POS to the admin dashboard without needing a page refresh. This provides management with a live, accurate view of operations as they happen.
-- **🤝 Collaborative View:** This technology ensures that central management always has the most current and accurate data from every branch, facilitating better-informed, immediate decision-making.
+- **Control the Inventory:** This is the core of the system. You can add new products, edit their details, and manage stock levels. I also added an "archive" feature, so you can hide old products from the POS without deleting them forever. This keeps the sales history intact.
 
-### Robust Technology Stack
+- **Keep a Supplier List:** A simple place to keep track of all your supplier contacts so you don't have to hunt for their info.
 
-This project was built using a modern and robust set of technologies, demonstrating expertise in full-stack desktop application development.
+- **Check Sales & Reports:** This section lets you check how the business is doing. You can see which products are selling well and look at total sales over different date ranges.
+
+- **View Activity Logs:** To help keep everything secure and accountable, there's a log that shows who logged in, what inventory was changed, and all the sales that were made.
+
+### 🏢 For the Branch Staff (The Point of Sale)
+
+The POS interface is designed to be simple and fast for daily use.
+
+- **Secure Login:** Each store logs in with its own unique account, so all sales and actions are tracked by location.
+
+- **Process Orders Quickly:** The checkout process is straightforward. Staff can find products, add them to a cart, and process the sale. The system handles all the calculations and automatically updates the stock count in the database.
+
+- **Print Real Receipts:** I hooked it up to work with thermal printers (`escpos` library), so it can print out a proper receipt for the customer right after a sale.
+
+---
+
+## 🚀 A Few Cool Features Under the Hood
+
+Here are a couple of the more technical features I'm proud of:
+
+### The Forecasting Tool (DSS)
+
+One of the main goals of the project was to build a tool that could help predict stock needs. 
+
+- It uses a **Simple Moving Average (SMA)** algorithm on the last 30 days of sales data to guess how much of a product will be needed soon. The idea was to help the owner avoid running out of popular items.
+- The interesting part is how it works: the main Node.js app calls a **Python script** to do the actual math. It was a fun challenge to get the two languages talking to each other.
+
+### Live Data with WebSockets
+
+To make the admin dashboard feel responsive and modern, I used WebSockets. When a sale happens at a branch, it pops up on the admin's screen instantly. This was way better than having the admin constantly hit the refresh button to see what's new.
+
+---
+
+## 🛠️ Tech I Used
+
+Here's a list of the main technologies I used to build this project:
 
 -   **Backend:** Node.js, Express.js
--   **Frontend:** EJS (Embedded JavaScript templates), CSS3, Vanilla JavaScript
+-   **Frontend:** EJS (Embedded JavaScript templates), CSS, Vanilla JavaScript
 -   **Desktop App Framework:** Electron.js
--   **Database & BaaS:** Supabase (PostgreSQL)
--   **Forecasting Engine:** Python (using Pandas)
--   **Real-time Communication:** WebSockets
--   **Key Libraries:**
-    -   `bcrypt`: For secure password hashing.
-    -   `jsonwebtoken`: For stateless authentication (JWT).
-    -   `nodemailer`: For email functionalities like password resets.
-    -   `escpos`: For direct communication with thermal receipt printers.
+-   **Database:** Supabase (PostgreSQL)
+-   **Forecasting Script:** Python (with Pandas)
+-   **Real-time Stuff:** WebSockets
+-   **Other Key Libraries:** `bcrypt` (for passwords), `jsonwebtoken` (for auth), `nodemailer` (for emails), `escpos` (for the receipt printer).
