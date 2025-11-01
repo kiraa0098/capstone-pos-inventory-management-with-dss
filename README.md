@@ -48,7 +48,19 @@ A streamlined interface for branch employees to handle day-to-day transactions.
 
 ### Forecasting Engine (DSS)
 
-A key feature is the Decision Support System for stock forecasting. It uses a **Simple Moving Average (SMA)** algorithm to analyze the last 30 days of sales and predict future product demand. This functionality is implemented using a Python script that is executed by the main Node.js application, demonstrating a practical use of polyglot programming.
+A key feature of this project is the Decision Support System (DSS) for stock forecasting. It provides data-driven estimates to help management make smarter inventory decisions using a time-series forecasting method.
+
+#### How the Calculation Works: Simple Moving Average (SMA)
+
+The model uses a **Simple Moving Average (SMA)** to forecast future demand based on recent performance. The process is as follows:
+
+1.  **Data Collection:** For each product, the system gathers the sales data from the last 30 days.
+2.  **Calculate Daily Average:** It then computes the average number of units sold per day over that 30-day period. Days with no sales are counted as zero to ensure the average is a realistic reflection of recent activity.
+3.  **Forecast Future Demand:** This daily average is then multiplied by a 30-day lead time to project the total demand for the upcoming month. The formula is essentially:
+
+    `(Total Sales in Last 30 Days / 30) * 30 = Forecasted Demand for Next 30 Days`
+
+This calculation is handled by a Python script (`sma_forecast.py`) that is called by the main Node.js application, demonstrating a practical use of polyglot programming.
 
 ### Real-Time UI with WebSockets
 
